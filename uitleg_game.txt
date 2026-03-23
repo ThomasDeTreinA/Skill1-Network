@@ -1,0 +1,66 @@
+================================================================================
+                     HANDLEIDING: NETWORK SIMULATOR GAME
+================================================================================
+
+Deze simulatie leert je de basis van netwerken, kabels en IP-adressen. Hieronder
+vind je een overzicht van de levels, leerdoelen en bediening.
+
+--- 1. OVERZICHT VAN DE LEVELS ---
+
+LEVEL 1: DE BASIS (LAN & KABELS)
+- Wat leer je: Het plaatsen van apparaten (PC, Laptop, Switch, Router) en het
+  verbinden met de juiste kabels. Je leert dat een Cat 5 kabel beperkt is (100m)
+  en dat je Cat 5e nodig hebt voor grotere afstanden (300m).
+- Doel: Verbind alle PC's in de woonkamer en verstuur je eerste datapakketje.
+
+LEVEL 2: ROUTERS & IP-ADRESSERING
+- Wat leer je: Hoe je een netwerk intelligent maakt met een Router. Je leert
+  IP-adressen (bijv. 192.168.1.1) en Subnet Masks (255.255.255.0) in te stellen.
+  Ook leer je hoe een Web Browser verbinding maakt via een IP-route.
+- Doel: Configureer de Router en PC's correct om de website van Thomas More
+  (www.thomasmore.be) te kunnen bezoeken.
+
+LEVEL 3: HET WERELDWIJDE NETWERK (WAN & WI-FI)
+- Wat leer je: Hoe je twee huizen met elkaar verbindt over grote afstand via een
+  WAN Fiber (glasvezel) kabel. Je leert ook hoe Laptops draadloos verbinden met
+  een Router (Wi-Fi) binnen een bepaalde straal.
+- Doel: Richt Huis 1 en Huis 2 in, leg de WAN-kabel op de wereldkaart en zorg
+  dat data van de ene kant van de wereld naar de andere kant kan reizen.
+
+--- 2. KNOOPPENDELEN & BEDIENING ---
+
+TOOLBAR (BOVEN):
+- [1] PC: Voor vaste werkplekken.
+- [2] Laptop: Draagbaar, kan via kabel óf Wi-Fi verbinden.
+- [3] Switch: Verdeelpunt voor meerdere kabels in één kamer.
+- [4] Router: Het hart van het netwerk; verbindt lokale netwerken met elkaar.
+- [D] Verwijderen: Klik op een apparaat of kabel-middelpunt om het weg te halen.
+
+KABELS (RECHTS):
+- Cat 5: Standaard kabel, max. 100 meter.
+- Cat 5e: Verbeterde kabel, max. 300 meter.
+- WAN Fiber: Glasvezel voor tussen huizen op de wereldkaart.
+
+SPECIALE ACTIES:
+- [SPATIE] (Data Icoon): Stuurt een testpakketje door je netwerk.
+- [HUIS BETREDEN]: Klik eerst op deze knop op de wereldkaart om een huis binnen te gaan.
+- [TERUG NAAR WERELDKAART]: Knop in Huis 2 om weer uit te zoomen.
+
+--- 3. DEVELOPER / EXPERT SHORTCUTS ---
+
+Voor gevorderde gebruikers zijn er handige sneltoetsen:
+- Toets [1..4]: Wissel direct tussen apparaten om te plaatsen.
+- Toets [D]: Activeer de verwijder-modus.
+- Toets [Spatie]: Verstuur direct een datapakketje zonder te klikken.
+- Muisklik op Apparaat: Opent het OS-menu (IP Instellingen / Browser).
+- Escape: Terug naar het menu (indien beschikbaar).
+
+--- 4. TIPS VOOR SUCCES ---
+- Als een kabel rood kleurt, is hij te lang! Gebruik Cat 5e of plaats een Switch.
+- Geen internet? Controleer of je Router een IP heeft (bijv. 192.168.1.1) en of
+  je PC in hetzelfde subnet zit (192.168.1.x).
+- Wi-Fi werkt alleen als de Laptop dicht genoeg bij de Router staat (blauwe cirkel).
+
+================================================================================
+                           VEEL PLEZIER MET HET SPEL!
+================================================================================
