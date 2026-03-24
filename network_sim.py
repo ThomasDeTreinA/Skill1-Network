@@ -15,6 +15,150 @@ YELLOW = (255, 255, 50)
 GRAY = (150, 150, 150)
 CYAN = (100, 255, 255)
 
+# --- TAAL SYSTEEM ---
+current_lang = 'nl' # Standaard Nederlands
+
+LANGS = {
+    'nl': {
+        'play': 'START SPEL',
+        'quit': 'AFSLUITEN',
+        'select_lang': 'KIES JE TAAL',
+        'back': 'Terug',
+        'go': 'Go!',
+        'enter_house': 'HUIS BETREDEN',
+        'to_world': 'NAAR WERELDKAART',
+        'ip_settings': 'IP Instellingen',
+        'web_browsing': 'Web Browsing',
+        'terminal': 'Terminal',
+        'restart': 'Herstarten',
+        'reset': 'Factory Reset',
+        'save': 'Opslaan',
+        'select_cable': 'Kies Kabel:',
+        'cat5_label': 'Cat 5 Kabel',
+        'cat5e_label': 'Cat 5e Kabel',
+        'wan_label': 'WAN Fiber',
+        'error_len': 'Kabel te lang!',
+        'error_ip': 'Fout: Router IP of Subnet incorrect.',
+        'error_route': 'Fout: Geen route naar een Router.',
+        'error_no_ip': 'Fout: PC heeft geen IP-adres.',
+        'error_404': 'Fout: 404 Website niet gevonden.',
+        'connecting': 'Verbinding maken...',
+        'free_mode': 'Vrij Spel / Sandbox Mode',
+        'intro_title': 'Welkom bij de Netwerk Simulator!',
+        'intro_body': [
+            "In deze game leer je de basisprincipes van netwerken stap voor stap.",
+            "Je bouwt je eigen lokale netwerk (LAN), verbindt apparaten via fysieke",
+            "kabels, en leert hoe Routers je naar het echte internet tillen.",
+            "",
+            "Wat kun je allemaal doen?",
+            "- Plaats PC's, Laptops, Switches en Routers (linksboven).",
+            "- Verbind apparaten met Cat 5 of snellere Cat 5e kabels (rechts).",
+            "- Configureer IP-adressen via het besturingssysteem van elk apparaat.",
+            "- Test je netwerk door data-pakketjes of webverkeer te sturen!",
+            "",
+            "Klik hier ergens in het vak om aan Level 1 te beginnen!"
+        ],
+        'l1_exp_mouse': "TIP: Houd de linkermuisknop ingedrukt om kabels te trekken!",
+        'trans_zoom_in': "Inzoomen op...",
+        'trans_zoom_out': "Uitzoomen naar de buitenwereld...",
+        'trans_back_world': "Terug naar het overzicht...",
+        'spacebar': 'SPATIE'
+    },
+    'en': {
+        'play': 'START GAME',
+        'quit': 'QUIT',
+        'select_lang': 'CHOOSE YOUR LANGUAGE',
+        'back': 'Back',
+        'go': 'Go!',
+        'enter_house': 'ENTER HOUSE',
+        'to_world': 'TO WORLD MAP',
+        'ip_settings': 'IP Settings',
+        'web_browsing': 'Web Browsing',
+        'terminal': 'Terminal',
+        'restart': 'Restart',
+        'reset': 'Factory Reset',
+        'save': 'Save',
+        'select_cable': 'Choose Cable:',
+        'cat5_label': 'Cat 5 Cable',
+        'cat5e_label': 'Cat 5e Cable',
+        'wan_label': 'WAN Fiber',
+        'error_len': 'Cable too long!',
+        'error_ip': 'Error: Router IP or Subnet incorrect.',
+        'error_route': 'Error: No route to a Router.',
+        'error_no_ip': 'Error: PC has no IP address.',
+        'error_404': 'Error: 404 Website not found.',
+        'connecting': 'Connecting...',
+        'free_mode': 'Free Play / Sandbox Mode',
+        'intro_title': 'Welcome to the Network Simulator!',
+        'intro_body': [
+            "In this game you will learn the basics of networking step by step.",
+            "Build your own local network (LAN), connect devices with physical",
+            "cables, and learn how Routers take you to the real internet.",
+            "",
+            "What can you do?",
+            "- Place PCs, Laptops, Switches and Routers (top left).",
+            "- Connect devices with Cat 5 or faster Cat 5e cables (right).",
+            "- Configure IP addresses via each device's OS.",
+            "- Test your network by sending data packets or web traffic!",
+            "",
+            "Click anywhere in this box to start Level 1!"
+        ],
+        'l1_exp_mouse': "TIP: Hold left mouse button to drag and connect cables!",
+        'trans_zoom_in': "Zooming in on...",
+        'trans_zoom_out': "Zooming out to the world...",
+        'trans_back_world': "Back to overview...",
+        'spacebar': 'SPACE'
+    },
+    'fr': {
+        'play': 'COMMENCER',
+        'quit': 'QUITTER',
+        'select_lang': 'CHOISISSEZ VOTRE LANGUE',
+        'back': 'Retour',
+        'go': 'Go!',
+        'enter_house': 'ENTRER MAISON',
+        'to_world': 'CARTE DU MONDE',
+        'ip_settings': 'Paramètres IP',
+        'web_browsing': 'Navigation Web',
+        'terminal': 'Terminal',
+        'restart': 'Redémarrer',
+        'reset': 'Réinitialiser',
+        'save': 'Sauvegarder',
+        'select_cable': 'Choisir Câble:',
+        'cat5_label': 'Câble Cat 5',
+        'cat5e_label': 'Câble Cat 5e',
+        'wan_label': 'Fibre WAN',
+        'error_len': 'Câble trop long!',
+        'error_ip': 'Erreur: IP du routeur ou masque incorrect.',
+        'error_route': 'Erreur: Pas de route vers un routeur.',
+        'error_no_ip': "Erreur: Le PC n'a pas d'adresse IP.",
+        'error_404': 'Erreur: 404 Site non trouvé.',
+        'connecting': 'Connexion en cours...',
+        'free_mode': 'Mode libre / Bac à sable',
+        'intro_title': 'Bienvenue dans le Simulateur Réseau!',
+        'intro_body': [
+            "Dans ce jeu, vous apprendrez les bases du réseau étape par étape.",
+            "Créez votre propre LAN, connectez des appareils avec des câbles",
+            "physiques et découvrez comment les routeurs ouvrent l'accès à Internet.",
+            "",
+            "Que pouvez-vous faire?",
+            "- Placez des PC, portables, switchs et routeurs (en haut à gauche).",
+            "- Connectez avec des câbles Cat 5 ou Cat 5e plus rapides (à droite).",
+            "- Configurez les adresses IP via le système de chaque appareil.",
+            "- Testez votre réseau en envoyant des paquets ou du trafic web!",
+            "",
+            "Cliquez n'importe où dans ce cadre pour commencer le niveau 1!"
+        ],
+        'l1_exp_mouse': "ASTUCE: Maintenez le bouton gauche de la souris pour glisser et connecter!",
+        'trans_zoom_in': "Zoom sur...",
+        'trans_zoom_out': "Retour au monde...",
+        'trans_back_world': "Retour à l'aperçu...",
+        'spacebar': 'ESPACE'
+    }
+}
+
+def get_text(key):
+    return LANGS.get(current_lang, LANGS['nl']).get(key, key)
+
 CABLES = {
     'Cat 5': {'color': GREEN, 'max_dist': 400, 'max_m': 100},
     'Cat 5e': {'color': BLUE, 'max_dist': 800, 'max_m': 200},
@@ -157,9 +301,9 @@ class Device:
         elif self.type == 'Laptop': label = f"LAP {self.id}"
         elif self.type == 'Switch': label = f"SW {self.id}"
         elif self.type == 'House1': 
-            label = "Huis 1" if not self.decorative else f"Huis {self.id}"
+            label = ("Huis 1" if current_lang == 'nl' else "House 1" if current_lang == 'en' else "Maison 1") if not self.decorative else f"Huis {self.id}"
         elif self.type == 'House2': 
-            label = "Huis 2" if not self.decorative else f"Huis {self.id}"
+            label = ("Huis 2" if current_lang == 'nl' else "House 2" if current_lang == 'en' else "Maison 2") if not self.decorative else f"Huis {self.id}"
         else: label = f"RT {self.id}"
             
         icon = ICONS.get(self.type)
@@ -349,12 +493,13 @@ class PacketPath:
 class SceneManager:
     def __init__(self):
         self.scenes = {
+            'Start': {'devices': [], 'connections': [], 'packets': []},
             'Level1': {'devices': [], 'connections': [], 'packets': []},
             'House1': {'devices': [], 'connections': [], 'packets': []},
             'House2': {'devices': [], 'connections': [], 'packets': []},
             'World': {'devices': [], 'connections': [], 'packets': []}
         }
-        self.current = 'Level1'
+        self.current = 'Start'
         self.transition_alpha = 0
         self.transition_state = "NONE" # NONE, FADE_OUT, FADE_IN
         self.target_scene = None
@@ -367,6 +512,43 @@ class SceneManager:
 
     def get_current(self):
         return self.scenes[self.current]
+
+    def draw_start_screen(self, surface):
+        surface.fill((30, 30, 40))
+        # Title
+        title_font = pygame.font.SysFont('Arial', 60, bold=True)
+        t_surf = title_font.render("NETWORK SIMULATOR", True, CYAN)
+        surface.blit(t_surf, (WIDTH//2 - t_surf.get_width()//2, 100))
+        
+        # Subtitle / Select Lang
+        lang_text = get_text('select_lang')
+        l_surf = font.render(lang_text, True, WHITE)
+        surface.blit(l_surf, (WIDTH//2 - l_surf.get_width()//2, 220))
+        
+        # Language Buttons
+        langs = [('nl', 'NEDERLANDS'), ('en', 'ENGLISH'), ('fr', 'FRANÇAIS')]
+        bx = WIDTH//2 - 250
+        for code, name in langs:
+            rect = pygame.Rect(bx, 260, 150, 40)
+            color = CYAN if current_lang == code else (60, 60, 70)
+            pygame.draw.rect(surface, color, rect, border_radius=5)
+            pygame.draw.rect(surface, WHITE, rect, 2, border_radius=5)
+            txt = font.render(name, True, WHITE)
+            surface.blit(txt, (rect.centerx - txt.get_width()//2, rect.centery - txt.get_height()//2))
+            bx += 175
+            
+        # Play / Quit Buttons
+        btn_play = pygame.Rect(WIDTH//2 - 100, 400, 200, 60)
+        pygame.draw.rect(surface, (100, 200, 100), btn_play, border_radius=10)
+        pygame.draw.rect(surface, WHITE, btn_play, 3, border_radius=10)
+        p_txt = font.render(get_text('play'), True, WHITE)
+        surface.blit(p_txt, (btn_play.centerx - p_txt.get_width()//2, btn_play.centery - p_txt.get_height()//2))
+        
+        btn_quit = pygame.Rect(WIDTH//2 - 100, 500, 200, 60)
+        pygame.draw.rect(surface, (200, 100, 100), btn_quit, border_radius=10)
+        pygame.draw.rect(surface, WHITE, btn_quit, 3, border_radius=10)
+        q_txt = font.render(get_text('quit'), True, WHITE)
+        surface.blit(q_txt, (btn_quit.centerx - q_txt.get_width()//2, btn_quit.centery - q_txt.get_height()//2))
 
     def update(self):
         if self.transition_state == "FADE_OUT":
@@ -409,64 +591,159 @@ class MissionSystem:
         self.setup_level()
         
     def setup_level(self):
+        L = current_lang
         if self.level == 1:
-            self.missions = [
-                Mission("Lees de start-introductie op het scherm.", "INTRO"),
-                Mission("Dit is een PC. Gebruik deze voor vaste werkstations.\nKlik om door te gaan.", "L1_EXP_PC", target_pos=(50, 40)),
-                Mission("Dit is een Laptop. Kan zowel met kabel als draadloos!\nKlik om door te gaan.", "L1_EXP_LAP", target_pos=(120, 40)),
-                Mission("Dit is een Switch. Hiermee verbind je meerdere apparaten.\nKlik om door te gaan.", "L1_EXP_SW", target_pos=(190, 40)),
-                Mission("Dit is een Router. De poort naar de rest van de wereld!\nKlik om door te gaan.", "L1_EXP_RT", target_pos=(260, 40)),
-                Mission("Missie 1: Plaats een PC in de linkercirkel.", "PLACE", target_pos=(100, 350), dev_type="PC"),
-                Mission("Missie 2: Plaats een 2e PC dichtbij.", "PLACE", target_pos=(300, 350), dev_type="PC"),
-                Mission("Missie 3: Verbind de twee PC's (Cat 5 is 100m max).", "CONNECT"),
-                Mission("Missie 4: Plaats een 3e PC ver weg.", "PLACE", target_pos=(750, 350), dev_type="PC"),
-                Mission("Missie 5: Verbind PC2 en PC3.", "TRY_CONNECT"),
-                Mission("Oeps! Kabel te kort. Lees de uitleg.", "EXPLANATION_CAT5"),
-                Mission("Missie 6: Pak rechts de Cat 5e kabel.", "PICK_CAT5E"),
-                Mission("Missie 7: Verbind PC2 en PC3 met de Cat 5e kabel.", "CONNECT_CAT5E"),
-                Mission("Missie 8: Druk op SPATIE (of data icoon) om data te sturen!", "PACKET"),
-                Mission("Level 1 voltooid! Lees de uitleg en klik op 'Volgende'.", "EXPLANATION_1")
-            ]
+            if L == 'en':
+                self.missions = [
+                    Mission("Read the start introduction on the screen.", "INTRO"),
+                    Mission("This is a PC. Use it for fixed workstations.\nClick to continue.", "L1_EXP_PC", target_pos=(51, 40)),
+                    Mission("This is a Laptop. Can connect via cable or wireless!\nClick to continue.", "L1_EXP_LAP", target_pos=(121, 40)),
+                    Mission("This is a Switch. Use it to connect multiple devices.\nClick to continue.", "L1_EXP_SW", target_pos=(191, 40)),
+                    Mission("This is a Router. The gateway to the rest of the world!\nClick to continue.", "L1_EXP_RT", target_pos=(261, 40)),
+                    Mission("Mission 1: Place a PC in the left circle.", "PLACE", target_pos=(100, 350), dev_type="PC"),
+                    Mission("Mission 2: Place a 2nd PC nearby.", "PLACE", target_pos=(300, 350), dev_type="PC"),
+                    Mission("TIP: Hold the left mouse button to drag and connect cables!\nClick to continue.", "L1_EXP_MOUSE"),
+                    Mission("Mission 3: Connect the two PCs (Cat 5 is 100m max).", "CONNECT"),
+                    Mission("Mission 4: Place a 3rd PC far away.", "PLACE", target_pos=(750, 350), dev_type="PC"),
+                    Mission("Mission 5: Connect PC2 and PC3.", "TRY_CONNECT"),
+                    Mission("Oops! Cable too short. Read the explanation.", "EXPLANATION_CAT5"),
+                    Mission("Mission 6: Pick the Cat 5e cable on the right.", "PICK_CAT5E"),
+                    Mission("Mission 7: Connect PC2 and PC3 with the Cat 5e cable.", "CONNECT_CAT5E"),
+                    Mission("Mission 8: Press SPACE (or data icon) to send data!", "PACKET"),
+                    Mission("Level 1 complete! Read the explanation and click 'Next'.", "EXPLANATION_1")
+                ]
+            elif L == 'fr':
+                self.missions = [
+                    Mission("Lisez l'introduction au début sur l'écran.", "INTRO"),
+                    Mission("C'est un PC. Utilisez-le pour les postes fixes.\nCliquez pour continuer.", "L1_EXP_PC", target_pos=(51, 40)),
+                    Mission("C'est un portable. Connexion filaire ou sans fil !\nCliquez pour continuer.", "L1_EXP_LAP", target_pos=(121, 40)),
+                    Mission("C'est un Switch. Pour connecter plusieurs appareils.\nCliquez pour continuer.", "L1_EXP_SW", target_pos=(191, 40)),
+                    Mission("C'est un Routeur. La porte vers le reste du monde !\nCliquez pour continuer.", "L1_EXP_RT", target_pos=(261, 40)),
+                    Mission("Mission 1: Placez un PC dans le cercle gauche.", "PLACE", target_pos=(100, 350), dev_type="PC"),
+                    Mission("Mission 2: Placez un 2ème PC à proximité.", "PLACE", target_pos=(300, 350), dev_type="PC"),
+                    Mission("ASTUCE: Maintenez le bouton gauche pour tirer des câbles !\nCliquez pour continuer.", "L1_EXP_MOUSE"),
+                    Mission("Mission 3: Connectez les deux PC (Cat 5 est 100m max).", "CONNECT"),
+                    Mission("Mission 4: Placez un 3ème PC au loin.", "PLACE", target_pos=(750, 350), dev_type="PC"),
+                    Mission("Mission 5: Connectez PC2 et PC3.", "TRY_CONNECT"),
+                    Mission("Oups ! Câble trop court. Lisez l'explication.", "EXPLANATION_CAT5"),
+                    Mission("Mission 6: Prenez le câble Cat 5e à droite.", "PICK_CAT5E"),
+                    Mission("Mission 7: Connectez PC2 et PC3 avec le câble Cat 5e.", "CONNECT_CAT5E"),
+                    Mission("Mission 8: Appuyez sur ESPACE pour envoyer des données !", "PACKET"),
+                    Mission("Niveau 1 terminé ! Lisez l'explication et cliquez sur 'Suivant'.", "EXPLANATION_1")
+                ]
+            else: # nl
+                self.missions = [
+                    Mission("Lees de start-introductie op het scherm.", "INTRO"),
+                    Mission("Dit is een PC. Gebruik deze voor vaste werkstations.\nKlik om door te gaan.", "L1_EXP_PC", target_pos=(51, 40)),
+                    Mission("Dit is een Laptop. Kan zowel met kabel als draadloos!\nKlik om door te gaan.", "L1_EXP_LAP", target_pos=(121, 40)),
+                    Mission("Dit is een Switch. Hiermee verbind je meerdere apparaten.\nKlik om door te gaan.", "L1_EXP_SW", target_pos=(191, 40)),
+                    Mission("Dit is een Router. De poort naar de rest van de wereld!\nKlik om door te gaan.", "L1_EXP_RT", target_pos=(261, 40)),
+                    Mission("Missie 1: Plaats een PC in de linkercirkel.", "PLACE", target_pos=(100, 350), dev_type="PC"),
+                    Mission("Missie 2: Plaats een 2e PC dichtbij.", "PLACE", target_pos=(300, 350), dev_type="PC"),
+                    Mission("TIP: Houd de linkermuisknop ingedrukt om kabels te trekken!\nKlik om door te gaan.", "L1_EXP_MOUSE"),
+                    Mission("Missie 3: Verbind de twee PC's (Cat 5 is 100m max).", "CONNECT"),
+                    Mission("Missie 4: Plaats een 3e PC ver weg.", "PLACE", target_pos=(750, 350), dev_type="PC"),
+                    Mission("Missie 5: Verbind PC2 en PC3.", "TRY_CONNECT"),
+                    Mission("Oeps! Kabel te kort. Lees de uitleg.", "EXPLANATION_CAT5"),
+                    Mission("Missie 6: Pak rechts de Cat 5e kabel.", "PICK_CAT5E"),
+                    Mission("Missie 7: Verbind PC2 en PC3 met de Cat 5e kabel.", "CONNECT_CAT5E"),
+                    Mission("Missie 8: Druk op SPATIE (of data icoon) om data te sturen!", "PACKET"),
+                    Mission("Level 1 voltooid! Lees de uitleg en klik op 'Volgende'.", "EXPLANATION_1")
+                ]
         elif self.level == 2:
-            self.missions = [
-                Mission("Level 2: Plaats een Router centraal in het netwerk.", "PLACE", target_pos=(500, 200), dev_type="Router"),
-                Mission("Klik op de Router. In IP Instellingen zet IP: 192.168.1.1, Subnet: 255.255.255.0\nKlik daarna op Opslaan.", "CONF_ROUTER"),
-                Mission("Goed zo! Sluit nu het venster door op het rode bolletje linksboven te klikken.", "CLOSE_WINDOW"),
-                Mission("Plaats een PC links onder de Router.", "PLACE", target_pos=(300, 400), dev_type="PC"),
-                Mission("Verbind de PC met de Router.", "CONNECT_R"),
-                Mission("Klik op de PC. In IP Instellingen zet IP: 192.168.1.2, Subnet: 255.255.255.0\nKlik daarna op Opslaan.", "CONF_PC"),
-                Mission("Klik bovenaan op 'Terug', kies dan 'Web Browsing'.\nTyp 'www.thomasmore.be' en klik Go!", "SURF"),
-                Mission("Sluit het browser venster door op het rode bolletje te klikken.", "CLOSE_WINDOW"),
-                Mission("Goed gedaan! Lees de uitleg en ga naar Level 3.", "EXPLANATION_2")
-            ]
+            if L == 'en':
+                self.missions = [
+                    Mission("Level 2: Place a Router in the center of the network.", "PLACE", target_pos=(500, 200), dev_type="Router"),
+                    Mission("Click the Router. In IP Settings set IP: 192.168.1.1, Subnet: 255.255.255.0\nThen click Save.", "CONF_ROUTER"),
+                    Mission("Good! Now close the window by clicking the red dot top left.", "CLOSE_WINDOW"),
+                    Mission("Place a PC below left of the Router.", "PLACE", target_pos=(300, 400), dev_type="PC"),
+                    Mission("Connect the PC to the Router.", "CONNECT_R"),
+                    Mission("Click the PC. In IP Settings set IP: 192.168.1.2, Subnet: 255.255.255.0\nThen click Save.", "CONF_PC"),
+                    Mission("Click 'Back' at the top, then choose 'Web Browsing'.\nType 'www.thomasmore.be' and click Go!", "SURF"),
+                    Mission("Close the browser window by clicking the red dot.", "CLOSE_WINDOW"),
+                    Mission("Well done! Read the explanation and go to Level 3.", "EXPLANATION_2")
+                ]
+            elif L == 'fr':
+                self.missions = [
+                    Mission("Niveau 2: Placez un routeur au centre du réseau.", "PLACE", target_pos=(500, 200), dev_type="Router"),
+                    Mission("Cliquez sur le routeur. Réglez IP: 192.168.1.1, Masque: 255.255.255.0\nCliquez sur Sauvegarder.", "CONF_ROUTER"),
+                    Mission("Bien ! Fermez la fenêtre en cliquant sur le point rouge.", "CLOSE_WINDOW"),
+                    Mission("Placez un PC en bas à gauche du routeur.", "PLACE", target_pos=(300, 400), dev_type="PC"),
+                    Mission("Connectez le PC au routeur.", "CONNECT_R"),
+                    Mission("Cliquez sur le PC. Réglez IP: 192.168.1.2, Masque: 255.255.255.0\nCliquez sur Sauvegarder.", "CONF_PC"),
+                    Mission("Cliquez sur 'Retour', puis 'Navigation Web'.\nTapez 'www.thomasmore.be' et Go !", "SURF"),
+                    Mission("Fermez le navigateur en cliquant sur le point rouge.", "CLOSE_WINDOW"),
+                    Mission("Bravo ! Lisez l'explication et passez au niveau 3.", "EXPLANATION_2")
+                ]
+            else: # nl
+                self.missions = [
+                    Mission("Level 2: Plaats een Router centraal in het netwerk.", "PLACE", target_pos=(500, 200), dev_type="Router"),
+                    Mission("Klik op de Router. In IP Instellingen zet IP: 192.168.1.1, Subnet: 255.255.255.0\nKlik daarna op Opslaan.", "CONF_ROUTER"),
+                    Mission("Goed zo! Sluit nu het venster door op het rode bolletje linksboven te klikken.", "CLOSE_WINDOW"),
+                    Mission("Plaats een PC links onder de Router.", "PLACE", target_pos=(300, 400), dev_type="PC"),
+                    Mission("Verbind de PC met de Router.", "CONNECT_R"),
+                    Mission("Klik op de PC. In IP Instellingen zet IP: 192.168.1.2, Subnet: 255.255.255.0\nKlik daarna op Opslaan.", "CONF_PC"),
+                    Mission("Klik bovenaan op 'Terug', kies dan 'Web Browsing'.\nTyp 'www.thomasmore.be' en klik Go!", "SURF"),
+                    Mission("Sluit het browser venster door op het rode bolletje te klikken.", "CLOSE_WINDOW"),
+                    Mission("Goed gedaan! Lees de uitleg en ga naar Level 3.", "EXPLANATION_2")
+                ]
         elif self.level == 3:
             global sm
-            if 'sm' in globals():
+            if 'sm' in globals() and sm is not None:
                 sm.current = 'House1'
-                sm.scenes['House1']['devices'].clear()
-                sm.scenes['House1']['connections'].clear()
-                sm.scenes['House1']['packets'].clear()
-                sm.scenes['House2']['devices'].clear()
-                sm.scenes['House2']['connections'].clear()
-                sm.scenes['House2']['packets'].clear()
-                sm.scenes['World']['devices'].clear()
-                sm.scenes['World']['connections'].clear()
-                sm.scenes['World']['packets'].clear()
-                
-            self.missions = [
-                Mission("L3: Plaats in Huis 1 een Router én een Switch.", "L3_PLACE_RS"),
-                Mission("Plaats 2 PC's rondom de Switch.", "L3_PLACE_PC"),
-                Mission("Verbind: Router->Switch en Switch->2x PC.", "L3_CONNECT_LAN"),
-                Mission("Plaats een Laptop in de buurt van de Routers blauwe cirkel.\nHij verbindt draadloos (Wi-Fi)!", "L3_WIFI"),
-                Mission("Huis 1 is lokaal klaar! We zoomen uit naar de Wereldkaart...", "L3_TO_WORLD_1"),
-                Mission("Dit is de Wereldkaart. Klik in dit vlak om Huis 2 binnen te gaan.", "L3_WORLD_1"),
-                Mission("Huis 2: Plaats hier ook een Router, Switch, 1 PC.\nVerbind: Router->Switch en Switch->PC.", "L3_BUILD_H2"),
-                Mission("Huis 2 compleet! Uitzoomen naar Wereldkaart...", "L3_TO_WORLD_2"),
-                Mission("Wereldkaart: Kies de WAN Fiber kabel rechts.", "L3_PICK_WAN"),
-                Mission("Op de kaart: Verbind Huis 1 en Huis 2 met de WAN kabel!", "L3_CONNECT_WAN"),
-                Mission("Gefeliciteerd! Test de verbinding door een pakketje\ntussen de huizen te sturen (Spatie)", "L3_SEND_P_WAN"),
-                Mission("Level 3 Compleet! Je hebt een WAN netwerk gebouwd.", "DONE")
-            ]
+                for s in sm.scenes.values():
+                    s['devices'].clear()
+                    s['connections'].clear()
+                    s['packets'].clear()
+            
+            if L == 'en':
+                self.missions = [
+                    Mission("L3: Place a Router and a Switch in House 1.", "L3_PLACE_RS"),
+                    Mission("Place 2 PCs around the Switch.", "L3_PLACE_PC"),
+                    Mission("Connect: Router->Switch and Switch->2x PC.", "L3_CONNECT_LAN"),
+                    Mission("Place a Laptop near the Router's blue circle.\nIt connects wirelessly (Wi-Fi)!", "L3_WIFI"),
+                    Mission("House 1 is ready! Zooming out to the World Map...", "L3_TO_WORLD_1"),
+                    Mission("This is the World Map. Click this box to enter House 2.", "L3_WORLD_1"),
+                    Mission("House 2: Place a Router, Switch, 1 PC.\nConnect: Router->Switch and Switch->PC.", "L3_BUILD_H2"),
+                    Mission("House 2 complete! Zooming out to World Map...", "L3_TO_WORLD_2"),
+                    Mission("World Map: Choose the WAN Fiber cable on the right.", "L3_PICK_WAN"),
+                    Mission("On the map: Connect House 1 and House 2 with the WAN cable!", "L3_CONNECT_WAN"),
+                    Mission("Congratulations! Test the connection by sending a packet\nbetween the houses (Space)", "L3_SEND_P_WAN"),
+                    Mission("WAN Network Complete! You are now in Free Mode.", "EXPLANATION_FIN"),
+                    Mission("Level 3 Complete! You are now in Free Mode.", "DONE")
+                ]
+            elif L == 'fr':
+                self.missions = [
+                    Mission("L3: Placez un routeur et un switch dans la Maison 1.", "L3_PLACE_RS"),
+                    Mission("Placez 2 PC autour du switch.", "L3_PLACE_PC"),
+                    Mission("Connectez : Routeur->Switch et Switch->2x PC.", "L3_CONNECT_LAN"),
+                    Mission("Placez un portable près du cercle bleu du routeur.\nIl se connecte sans fil (Wi-Fi) !", "L3_WIFI"),
+                    Mission("Maison 1 prête ! Retour à la carte du monde...", "L3_TO_WORLD_1"),
+                    Mission("C'est la carte du monde. Cliquez ici pour entrer Maison 2.", "L3_WORLD_1"),
+                    Mission("Maison 2: Placez routeur, switch, 1 PC.\nConnectez : Routeur->Switch et Switch->PC.", "L3_BUILD_H2"),
+                    Mission("Maison 2 terminée ! Retour à la carte...", "L3_TO_WORLD_2"),
+                    Mission("Carte : Choisissez le câble Fibre WAN à droite.", "L3_PICK_WAN"),
+                    Mission("Connectez Maison 1 et Maison 2 avec le câble WAN !", "L3_CONNECT_WAN"),
+                    Mission("Félicitations ! Testez en envoyant un paquet\nentre les maisons (Espace)", "L3_SEND_P_WAN"),
+                    Mission("Réseau WAN complet ! Vous êtes en mode libre.", "EXPLANATION_FIN"),
+                    Mission("Niveau 3 terminé ! Vous êtes en mode libre.", "DONE")
+                ]
+            else: # nl
+                self.missions = [
+                    Mission("L3: Plaats in Huis 1 een Router én een Switch.", "L3_PLACE_RS"),
+                    Mission("Plaats 2 PC's rondom de Switch.", "L3_PLACE_PC"),
+                    Mission("Verbind: Router->Switch en Switch->2x PC.", "L3_CONNECT_LAN"),
+                    Mission("Plaats een Laptop in de buurt van de Routers blauwe cirkel.\nHij verbindt draadloos (Wi-Fi)!", "L3_WIFI"),
+                    Mission("Huis 1 is lokaal klaar! We zoomen uit naar de Wereldkaart...", "L3_TO_WORLD_1"),
+                    Mission("Dit is de Wereldkaart. Klik in dit vlak om Huis 2 binnen te gaan.", "L3_WORLD_1"),
+                    Mission("Huis 2: Plaats hier ook een Router, Switch, 1 PC.\nVerbind: Router->Switch en Switch->PC.", "L3_BUILD_H2"),
+                    Mission("Huis 2 compleet! Uitzoomen naar Wereldkaart...", "L3_TO_WORLD_2"),
+                    Mission("Wereldkaart: Kies de WAN Fiber kabel rechts.", "L3_PICK_WAN"),
+                    Mission("Op de kaart: Verbind Huis 1 en Huis 2 met de WAN kabel!", "L3_CONNECT_WAN"),
+                    Mission("Gefeliciteerd! Test de verbinding door een pakketje\ntussen de huizen te sturen (Spatie)", "L3_SEND_P_WAN"),
+                    Mission("WAN Netwerk voltooid! Je bent nu in Free Mode.", "EXPLANATION_FIN"),
+                    Mission("Level 3 Compleet! Je bent nu in Free Mode.", "DONE")
+                ]
         self.current_idx = 0
         self.packets_delivered = 0
         self.surf_success = False
@@ -487,7 +764,7 @@ class MissionSystem:
             
         mission = self.get_current()
         if not mission or mission.type == "DONE":
-            text = "Vrij Spel / Sandbox Mode" if not mission else mission.text
+            text = get_text('free_mode') if not mission else mission.text
             t_surf = mission_font.render(text, True, CYAN)
             surface.blit(t_surf, (WIDTH//2 - t_surf.get_width()//2, 80))
             return
@@ -501,6 +778,11 @@ class MissionSystem:
             t_surf = mission_font.render(l, True, YELLOW)
             surface.blit(t_surf, (WIDTH//2 - t_surf.get_width()//2, y))
             y += 28
+
+        if mission.type == "L1_EXP_MOUSE":
+            # Point to the area between devices
+            s = abs(math.sin(pygame.time.get_ticks() * 0.01))
+            pygame.draw.circle(surface, YELLOW, (200, 350), 30 + s*10, 2)
 
         if mission.type == "PLACE" and mission.target_pos:
             if gc_img:
@@ -521,7 +803,7 @@ class MissionSystem:
         if mission.type.startswith("L1_EXP_") and mission.target_pos:
              px, py = mission.target_pos
              s = abs(math.sin(pygame.time.get_ticks() * 0.01))
-             pygame.draw.polygon(surface, YELLOW, [(px, py + 70 + s*10), (px-10, py+90+s*10), (px+10, py+90+s*10)])
+             pygame.draw.polygon(surface, YELLOW, [(px, py + 35 + s*10), (px-10, py+55+s*10), (px+10, py+55+s*10)])
 
     def draw_overlays(self, surface):
         if self.fail_timer > 0:
@@ -538,21 +820,7 @@ class MissionSystem:
             pygame.draw.rect(ov_surf, (40, 40, 50), box)
             pygame.draw.rect(ov_surf, CYAN, box, 3)
             
-            lines = [
-                "Welkom bij de Netwerk Simulator!",
-                "",
-                "In deze game leer je de basisprincipes van netwerken stap voor stap.",
-                "Je bouwt je eigen lokale netwerk (LAN), verbindt apparaten via fysieke",
-                "kabels, en leert hoe Routers je naar het echte internet tillen.",
-                "",
-                "Wat kun je allemaal doen?",
-                "- Plaats PC's, Laptops, Switches en Routers (linksboven).",
-                "- Verbind apparaten met Cat 5 of snellere Cat 5e kabels (rechts).",
-                "- Configureer IP-adressen via het besturingssysteem van elk apparaat.",
-                "- Test je netwerk door data-pakketjes of webverkeer te sturen!",
-                "",
-                "Klik hier ergens in het vak om aan Level 1 te beginnen!"
-            ]
+            lines = [get_text('intro_title'), ""] + LANGS[current_lang]['intro_body']
             y = box.y + 20
             for l in lines:
                 surf = font.render(l, True, WHITE)
@@ -569,18 +837,12 @@ class MissionSystem:
             pygame.draw.rect(ov_surf, (40, 40, 50), box)
             pygame.draw.rect(ov_surf, RED, box, 3)
             
-            lines = [
-                "Oeps! De verbinding is mislukt...",
-                "",
-                "Je probeert data over een te grote afstand te sturen met een Cat 5 kabel.",
-                "Een standaard Cat 5 (koper)kabel is maar geschikt voor maximaal 100 meter.",
-                "Hoe langer de kabel, hoe zwakker je signaal wordt. Dit noemt men 'attenuatie'.",
-                "",
-                "Gelukkig is er de Cat 5e (enhanced) kabel! Deze kan data beter en sneller",
-                "sturen doordat de koperdraadjes strakker in elkaar gedraaid zitten tegen storingen.",
-                "",
-                "Klik hier ergens in dit vak om verder te gaan"
-            ]
+            text_lines = {
+                'nl': ["Oeps! De verbinding is mislukt...", "", "Je probeert data over een te grote afstand te sturen met een Cat 5 kabel.", "Een standaard Cat 5 (koper)kabel is maar geschikt voor maximaal 100 meter.", "Hoe langer de kabel, hoe zwakker je signaal wordt. Dit noemt men 'attenuatie'.", "", "Gelukkig is er de Cat 5e (enhanced) kabel! Deze kan data beter en sneller", "sturen doordat de koperdraadjes strakker in elkaar gedraaid zitten tegen storingen.", "", "Klik hier ergens in dit vak om verder te gaan"],
+                'en': ["Oops! The connection failed...", "", "You are trying to send data over too long a distance with a Cat 5 cable.", "A standard Cat 5 (copper) cable is only suitable for a maximum of 100 meters.", "The longer the cable, the weaker your signal becomes. This is called 'attenuation'.", "", "Fortunately, there is the Cat 5e (enhanced) cable! It can send data better and faster", "because the copper wires are twisted tighter against interference.", "", "Click anywhere in this box to continue"],
+                'fr': ["Oups ! La connexion a échoué...", "", "Vous essayez d'envoyer des données sur une trop longue distance avec un câble Cat 5.", "Un câble Cat 5 standard n'est adapté que pour un maximum de 100 mètres.", "Plus le câble est long, plus le signal s'affaibit. C'est ce qu'on appelle 'l'atténuation'.", "", "Heureusement, il existe le câble Cat 5e ! Il envoie les données mieux et plus vite", "car les fils de cuivre sont torsadés plus serrés contre les interférences.", "", "Cliquez ici pour continuer"]
+            }
+            lines = text_lines.get(current_lang, text_lines['nl'])
             y = box.y + 20
             for l in lines:
                 surf = font.render(l, True, WHITE)
@@ -597,11 +859,12 @@ class MissionSystem:
             pygame.draw.rect(ov_surf, (40, 40, 50), box)
             pygame.draw.rect(ov_surf, GREEN, box, 3)
             
-            lines = [
-                "Huis 1 is nu lokaal volledig verbonden!",
-                "",
-                "Klik hier om uit te zoomen naar de buitenwereld..."
-            ]
+            text_lines = {
+                'nl': ["Huis 1 is nu lokaal volledig verbonden!", "", "Klik hier om uit te zoomen naar de buitenwereld..."],
+                'en': ["House 1 is now fully connected locally!", "", "Click here to zoom out to the outside world..."],
+                'fr': ["La Maison 1 est maintenant entièrement connectée !", "", "Cliquez ici pour dézoomer sur le monde extérieur..."]
+            }
+            lines = text_lines.get(current_lang, text_lines['nl'])
             y = box.y + 50
             for l in lines:
                 surf = font.render(l, True, WHITE)
@@ -612,24 +875,19 @@ class MissionSystem:
             surface.blit(ov_surf, (0,0))
 
         elif mission and mission.type == "L3_WORLD_1":
-            # FIX: Wachten tot de transitie klaar is
             if sm and sm.transition_state != "NONE": return
-            
             if self.overlay_alpha < 255: self.overlay_alpha = min(255, self.overlay_alpha + 15)
             ov_surf = pygame.Surface((1000, 700), pygame.SRCALPHA)
             box = pygame.Rect(500 - 400, 350 - 150, 800, 300)
             pygame.draw.rect(ov_surf, (40, 40, 50), box)
             pygame.draw.rect(ov_surf, CYAN, box, 3)
             
-            lines = [
-                "Je bevindt je nu op de Wereldkaart!",
-                "",
-                "Hier zie je de buitenkant van de lokale netwerken die je bouwt.",
-                "In de verte staat een tweede huis (Huis 2) met een leeg netwerk.",
-                "",
-                "Klik eerst in dit vak om door te gaan",
-                "Klik daarna op de knop 'HUIS BETREDEN' links om in te kunnen zoomen op huis 2!"
-            ]
+            text_lines = {
+                'nl': ["Je bevindt je nu op de Wereldkaart!", "", "Hier zie je de buitenkant van de lokale netwerken die je bouwt.", "In de verte staat een tweede huis (Huis 2) met een leeg netwerk.", "", "Klik eerst in dit vak om door te gaan", "Klik daarna op de knop 'HUIS BETREDEN' links om in te gaan!"],
+                'en': ["You are now on the World Map!", "", "Here you see the outside of the local networks you build.", "In the distance is a second house (House 2) with an empty network.", "", "Click this box to continue", "Then click 'ENTER HOUSE' on the left to zoom in on House 2!"],
+                'fr': ["Vous êtes maintenant sur la carte du monde !", "", "Ici, vous voyez l'extérieur des réseaux locaux que vous construisez.", "Au loin se trouve une deuxième maison (Maison 2) avec un réseau vide.", "", "Cliquez ici pour continuer", "Ensuite click sur 'ENTRER MAISON' à gauche pour zoomer sur la Maison 2 !"]
+            }
+            lines = text_lines.get(current_lang, text_lines['nl'])
             y = box.y + 30
             for l in lines:
                 surf = font.render(l, True, WHITE)
@@ -667,19 +925,12 @@ class MissionSystem:
             pygame.draw.rect(ov_surf, (40, 40, 50), box)
             pygame.draw.rect(ov_surf, CYAN, box, 3)
             
-            lines = [
-                "Je hebt zojuist een eigen lokaal netwerk (LAN) gemaakt!",
-                "Door 3 computers te verbinden via ethernet kabels,",
-                "kon je lokaal (binnen je eigen bereik) data-pakketjes rondsturen.",
-                "",
-                "Echter... Wat als je een website wilt bezoeken?",
-                "Je kunt nu nog NIET op internet surfen!",
-                "Je netwerk is gelimiteerd tot je eigen PCs.",
-                "Daarvoor hebben we een *Router* nodig. Een router",
-                "verbindt jouw lokale netwerk met het grote internet.",
-                "",
-                "Klik hier ergens in het vak om naar Level 2 te gaan!"
-            ]
+            text_lines = {
+                'nl': ["Je hebt zojuist een eigen lokaal netwerk (LAN) gemaakt!", "Door 3 computers te verbinden via ethernet kabels,", "kon je lokaal (binnen je eigen bereik) data-pakketjes rondsturen.", "", "Echter... Wat als je een website wilt bezoeken?", "Je kunt nu nog NIET op internet surfen!", "Je netwerk is gelimiteerd tot je eigen PCs.", "Daarvoor hebben we een *Router* nodig. Een router", "verbindt jouw lokale netwerk met het grote internet.", "", "Klik hier ergens in het vak om naar Level 2 te gaan!"],
+                'en': ["You have just created your own local area network (LAN)!", "By connecting 3 computers via ethernet cables,", "you could send data packets locally (within your range).", "", "However... What if you want to visit a website?", "You can NOT surf the internet yet!", "Your network is limited to your own PCs.", "For that we need a *Router*. A router", "connects your local network to the big internet.", "", "Click anywhere in this box to go to Level 2!"],
+                'fr': ["Vous venez de créer votre propre réseau local (LAN) !", "En connectant 3 ordinateurs via des câbles Ethernet,", "vous avez pu envoyer des paquets localement.", "", "Cependant... Et si vous vouliez visiter un site web ?", "Vous ne pouvez PAS encore surfer sur Internet !", "Votre réseau est limité à vos propres PC.", "Pour cela, nous avons besoin d'un *Routeur*. Un routeur", "connecte votre réseau local au vaste Internet.", "", "Cliquez ici pour passer au niveau 2 !"]
+            }
+            lines = text_lines.get(current_lang, text_lines['nl'])
             y = box.y + 20
             for l in lines:
                 surf = font.render(l, True, WHITE)
@@ -696,22 +947,34 @@ class MissionSystem:
             pygame.draw.rect(ov_surf, (40, 40, 50), box)
             pygame.draw.rect(ov_surf, CYAN, box, 3)
             
-            lines = [
-                "Geweldig gedaan! Je hebt zojuist je eerste netwerk geconfigureerd.",
-                "",
-                "Een PC en Router hebben een IP-adres en Subnetmasker nodig",
-                "om elkaar te kunnen vinden en netwerkverkeer te sturen.",
-                "Anders weten de data pakketjes letterlijk niet waar naartoe!",
-                "",
-                "De Router fungeert als de voordeur naar de buitenwereld:",
-                "het Wide Area Network (WAN), beter bekend als het Internet.",
-                "",
-                "Een Internet Service Provider (ISP), geeft een verbinding en IP",
-                "aan jouw Router. Daardoor kon je netwerk met succes",
-                "de website van Thomas More lokaal inladen en bereiken!",
-                "",
-                "Klik hier ergens in het vak om naar Level 3 te gaan."
-            ]
+            text_lines = {
+                'nl': ["Geweldig gedaan! Je hebt zojuist je eerste netwerk geconfigureerd.", "", "Een PC en Router hebben een IP-adres en Subnetmasker nodig", "om elkaar te kunnen vinden en netwerkverkeer te sturen.", "Anders weten de data pakketjes letterlijk niet waar naartoe!", "", "De Router fungeert als de voordeur naar de buitenwereld:", "het Wide Area Network (WAN), beter bekend als het Internet.", "", "Een Internet Service Provider (ISP), geeft een verbinding en IP", "aan jouw Router. Daardoor kon je netwerk met succes", "de website van Thomas More lokaal inladen en bereiken!", "", "Klik hier ergens in het vak om naar Level 3 te gaan."],
+                'en': ["Great job! You have just configured your first network.", "", "A PC and Router need an IP address and Subnet mask", "to find each other and send network traffic.", "Otherwise, the data packets literally don't know where to go!", "", "The Router acts as the front door to the outside world:", "the Wide Area Network (WAN), better known as the Internet.", "", "An Internet Service Provider (ISP) gives a connection and IP", "to your Router. This allowed your network to successfully", "load and reach the Thomas More website locally!", "", "Click anywhere in this box to go to Level 3."],
+                'fr': ["Excellent travail ! Vous venez de configurer votre premier réseau.", "", "Un PC et un routeur ont besoin d'une adresse IP et d'un masque", "pour se trouver et envoyer du trafic réseau.", "Sinon, les paquets ne savent littéralement pas où aller !", "", "Le routeur agit comme la porte d'entrée vers le monde extérieur :", "le Wide Area Network (WAN), mieux connu sous le nom d'Internet.", "", "Un fournisseur d'accès (ISP) donne une connexion et une IP", "à votre routeur. C'est ce qui a permis à votre réseau de", "charger le site de Thomas More avec succès !", "", "Cliquez ici pour passer au niveau 3."]
+            }
+            lines = text_lines.get(current_lang, text_lines['nl'])
+            y = box.y + 20
+            for l in lines:
+                surf = font.render(l, True, WHITE)
+                ov_surf.blit(surf, (box.x + 400 - surf.get_width()//2, y))
+                y += 25
+                
+            ov_surf.set_alpha(self.overlay_alpha)
+            surface.blit(ov_surf, (0,0))
+
+        elif mission and mission.type == "EXPLANATION_FIN":
+            if self.overlay_alpha < 255: self.overlay_alpha = min(255, self.overlay_alpha + 15)
+            ov_surf = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+            box = pygame.Rect(WIDTH//2 - 400, HEIGHT//2 - 200, 800, 400)
+            pygame.draw.rect(ov_surf, (20, 40, 20), box)
+            pygame.draw.rect(ov_surf, GREEN, box, 3)
+            
+            text_lines = {
+                'nl': ["PROFICIAT! Je hebt het WAN netwerk voltooid!", "", "Je hebt nu alle levels van de simulator doorlopen.", "Je weet hoe je apparaten plaatst, kabels trekt, IP's instelt", "en verbinding maakt tussen afgelegen locaties.", "", "Vanaf nu zit je in de FREE MODE / ENDLESS MODE.", "Je kunt nu vrij alle huizen verkennen, extra apparatuur bouwen", "en het hele wegennetwerk bekabelen zoals jij dat wilt!", "", "Klik hier om de sandbox mode te starten."],
+                'en': ["CONGRATULATIONS! You have completed the WAN network!", "", "You have finished all levels of the simulator.", "You know how to place devices, pull cables, set IPs", "and connect remote locations.", "", "From now on you are in FREE MODE / ENDLESS MODE.", "You can freely explore all houses, build extra equipment", "and wire the entire road network as you wish!", "", "Click here to start sandbox mode."],
+                'fr': ["FÉLICITATIONS ! Vous avez terminé le réseau WAN !", "", "Vous avez terminé tous les niveaux du simulateur.", "Vous savez placer des appareils, tirer des câbles, régler des IP", "et connecter des sites distants.", "", "Désormais, vous êtes en MODE LIBRE / MODE INFINI.", "Vous pouvez explorer toutes les maisons, construire du matériel", "et câbler tout le réseau routier comme vous le souhaitez !", "", "Cliquez ici pour lancer le mode bac à sable."]
+            }
+            lines = text_lines.get(current_lang, text_lines['nl'])
             y = box.y + 20
             for l in lines:
                 surf = font.render(l, True, WHITE)
@@ -954,13 +1217,15 @@ def main():
             
         m = mission_sys.get_current()
                 
-        if bg_img and sm.current != 'World':
+        if bg_img and sm.current != 'World' and sm.current != 'Start':
             screen.blit(bg_img, (0, 0))
         elif sm.current == 'World':
             screen.fill((40, 80, 40)) # Donkerder groen
             # Een weg / horizon
             pygame.draw.rect(screen, (60, 60, 60), (0, 300, 1000, 100))
             pygame.draw.line(screen, YELLOW, (0, 350), (1000, 350), 2)
+        elif sm.current == 'Start':
+            sm.draw_start_screen(screen)
         else:
             screen.fill(BLACK)
             
@@ -1013,6 +1278,29 @@ def main():
                                         
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1: 
+                    # START SCREEN CLICKS
+                    if sm.current == 'Start':
+                        # Langs
+                        bx = WIDTH//2 - 250
+                        for code, name in [('nl', 'NEDERLANDS'), ('en', 'ENGLISH'), ('fr', 'FRANÇAIS')]:
+                            r = pygame.Rect(bx, 260, 150, 40)
+                            if r.collidepoint(event.pos):
+                                global current_lang
+                                current_lang = code
+                                mission_sys.setup_level() # Re-setup missions for new lang
+                            bx += 175
+                        
+                        # Play / Quit
+                        btn_play = pygame.Rect(WIDTH//2 - 100, 400, 200, 60)
+                        if btn_play.collidepoint(event.pos):
+                            sm.start_transition("Level1", get_text('trans_zoom_in'))
+                        
+                        btn_quit = pygame.Rect(WIDTH//2 - 100, 500, 200, 60)
+                        if btn_quit.collidepoint(event.pos):
+                            pygame.quit()
+                            sys.exit()
+                        continue
+                        
                     # OS WINDOW CLICKS
                     if active_device:
                         box = pygame.Rect(WIDTH//2 - 250, HEIGHT//2 - 150, 500, 300)
@@ -1037,9 +1325,9 @@ def main():
                             bx, by = box.x + 50, box.y + 70
                             options = []
                             if active_device.type in ('PC', 'Laptop'):
-                                options = [("IP Instellingen", "ip_instellingen.png"), ("Web Browsing", "web_browsing.png"), ("Terminal", "terminal.png")]
+                                options = [(get_text('ip_settings'), "ip_instellingen.png"), (get_text('web_browsing'), "web_browsing.png"), (get_text('terminal'), "terminal.png")]
                             else:
-                                options = [("IP Instellingen", "ip_instellingen.png"), ("Restart", "restart.png"), ("Factory Reset", "factory_reset.png")]
+                                options = [(get_text('ip_settings'), "ip_instellingen.png"), (get_text('restart'), "restart.png"), (get_text('reset'), "factory_reset.png")]
                             
                             for name, icon_file in options:
                                 r = pygame.Rect(bx, by, 100, 100)
@@ -1150,7 +1438,7 @@ def main():
                             sm.start_transition("World", "Terug naar het overzicht...")
             
                     # INTRO popup click handler (General)
-                    if mission and mission.type in ("INTRO", "L1_EXP_PC", "L1_EXP_LAP", "L1_EXP_SW", "L1_EXP_RT"):
+                    if mission and mission.type in ("INTRO", "L1_EXP_PC", "L1_EXP_LAP", "L1_EXP_SW", "L1_EXP_RT", "L1_EXP_MOUSE"):
                         box = pygame.Rect(WIDTH//2 - 400, HEIGHT//2 - 200, 800, 400)
                         if mission.type == "INTRO":
                             if box.collidepoint(event.pos):
@@ -1367,7 +1655,7 @@ def main():
                                      if miss and miss.type == "TRY_CONNECT" and current_cable == 'Cat 5':
                                          mission_sys.advance()
                                      else:
-                                         error_msg = f"Kabel te lang! Capaciteit is {CABLES[current_cable]['max_m']}m"
+                                         error_msg = f"{get_text('error_len')} {CABLES[current_cable]['max_m']}m"
                                          error_timer = 1200
                                 
                     dragging = False
@@ -1396,9 +1684,11 @@ def main():
                 pygame.draw.line(screen, color, (start_x, start_y), mouse_pos, 4)
                 
                 if drag_dist > max_dist:
-                    text = small_font.render(f"Te lang! {dist_m}m / {max_m}m", True, RED)
+                    msg_too_long = "Too long!" if current_lang == 'en' else "Trop long!" if current_lang == 'fr' else "Te lang!"
+                    text = small_font.render(f"{msg_too_long} {dist_m}m / {max_m}m", True, RED)
                 else:
-                    text = small_font.render(f"{dist_m}m (Max {max_m}m)", True, WHITE)
+                    msg_max = "Max" if current_lang != 'nl' else "Max" # Same for all?
+                    text = small_font.render(f"{dist_m}m ({msg_max} {max_m}m)", True, WHITE)
                 screen.blit(text, (mouse_pos[0] + 10, mouse_pos[1] + 10))
             
         new_packets = []
@@ -1467,10 +1757,10 @@ def main():
         if data_img:
             scaled_data = pygame.transform.smoothscale(data_img, (30, 30))
             screen.blit(scaled_data, (btn_data.x + 25, btn_data.y + 5))
-        dt = small_font.render("[SPATIE]", True, WHITE)
+        dt = small_font.render(f"[{get_text('spacebar')}]", True, WHITE)
         screen.blit(dt, (btn_data.x + 10, btn_data.y + 35))
 
-        menu_title = font.render("Kies Kabel:", True, WHITE)
+        menu_title = font.render(get_text('select_cable') if 'select_cable' in LANGS[current_lang] else ("Choose Cable:" if current_lang == 'en' else "Choisir Câble:" if current_lang == 'fr' else "Kies Kabel:"), True, WHITE)
         screen.blit(menu_title, (810, 50))
         
         for btn, name in [(btn_cat5, 'Cat 5'), (btn_cat5e, 'Cat 5e'), (btn_wan, 'WAN Fiber')]:
@@ -1481,14 +1771,15 @@ def main():
             btn_color = (60, 60, 60) if current_cable != name else (100, 200, 100)
             pygame.draw.rect(screen, btn_color, btn)
             pygame.draw.rect(screen, WHITE, btn, 2)
-            t = font.render(name, True, WHITE)
+            lbl_key = 'cat5_label' if name == 'Cat 5' else 'cat5e_label' if name == 'Cat 5e' else 'wan_label'
+            t = font.render(get_text(lbl_key), True, WHITE)
             screen.blit(t, (btn.x + 10, btn.y + 10))
         # Terug naar Wereldknop tekenen (Alleen in Huis 2!)
         if sm.current == 'House2' and mission_sys.level == 3:
             btn_w = pygame.Rect(20, HEIGHT//2 - 20, 220, 40)
             pygame.draw.rect(screen, (70, 70, 90), btn_w)
             pygame.draw.rect(screen, CYAN, btn_w, 2)
-            tw = font.render("NAAR WERELDKAART", True, WHITE)
+            tw = font.render(get_text('to_world'), True, WHITE)
             screen.blit(tw, (btn_w.x + btn_w.width//2 - tw.get_width()//2, btn_w.y + 10))
 
         # Huis Betreden Knop op Wereldkaart
@@ -1496,29 +1787,11 @@ def main():
             color = GREEN if current_cable is None else (60, 60, 80)
             pygame.draw.rect(screen, color, btn_enter_house, 0, 5)
             pygame.draw.rect(screen, WHITE, btn_enter_house, 2, 5)
-            tt = font.render("HUIS BETREDEN", True, WHITE)
-            screen.blit(tt, (btn_enter_house.x + 15, btn_enter_house.y + 15))
+            tt = font.render(get_text('enter_house'), True, WHITE)
+            screen.blit(tt, (btn_enter_house.x + btn_enter_house.width//2 - tt.get_width()//2, btn_enter_house.y + 15))
             
             # Pijl naar knop bij missie naar H2 (PAS ALS POPUP WEG IS)
             m = mission_sys.get_current()
-            if m and m.type in ["L3_WORLD_1", "L3_BUILD_H2"]:
-                if mission_sys.overlay_alpha == 0: 
-                    s = abs(math.sin(pygame.time.get_ticks() * 0.01))
-                    px = btn_enter_house.right + 20 + s*10
-                    pygame.draw.polygon(screen, YELLOW, [(px, btn_enter_house.centery), (px+20, btn_enter_house.centery-10), (px+20, btn_enter_house.centery+10)])
-                    th = small_font.render("Klik hier eerst!", True, YELLOW)
-                    screen.blit(th, (px + 25, btn_enter_house.centery - 10))
-
-            
-        if error_timer > 0:
-            err_surf = font.render(error_msg, True, RED)
-            screen.blit(err_surf, (WIDTH//2 - err_surf.get_width()//2, 120))
-            error_timer -= 1
-        
-        mission_sys.check_conditions(devices, connections, packets)
-        mission_sys.draw_mission_text(screen)
-        
-        # DRAW OS WINDOW IF ACTIVE
         if active_device:
             if ui_alpha < 255:
                 ui_alpha = min(255, ui_alpha + 25)
@@ -1544,10 +1817,17 @@ def main():
                 btn_back = pygame.Rect(box.x + 75, box.y + 4, 60, 22)
                 pygame.draw.rect(os_surf, GRAY, btn_back)
                 pygame.draw.rect(os_surf, BLACK, btn_back, 1)
-                t = small_font.render("Terug", True, BLACK)
+                t = small_font.render(get_text('back'), True, BLACK)
                 os_surf.blit(t, (btn_back.x + 10, btn_back.y + 2))
                 
-            title_text = f"Console - {active_device.type} {active_device.id}" if active_window == "MENU" else f"{active_window} - {active_device.type}"
+            title_text = ""
+            if active_window == "MENU":
+                title_text = f"Console - {active_device.type} {active_device.id}"
+            elif active_window == "IP":
+                title_text = f"{get_text('ip_settings')} - {active_device.type}"
+            elif active_window == "WEB":
+                title_text = f"{get_text('web_browsing')} - {active_device.type}"
+                
             tx = box.x + 150 if active_window != "MENU" else box.x + 80
             t = font.render(title_text, True, BLACK)
             os_surf.blit(t, (tx, box.y + 3))
@@ -1586,7 +1866,7 @@ def main():
                 btn_save = pygame.Rect(WIDTH//2 - 50, HEIGHT//2 + 90, 100, 30)
                 pygame.draw.rect(os_surf, (100, 200, 100), btn_save)
                 pygame.draw.rect(os_surf, BLACK, btn_save, 2)
-                st = font.render("Opslaan", True, BLACK)
+                st = font.render(get_text('save'), True, BLACK)
                 os_surf.blit(st, (btn_save.x + 10, btn_save.y + 3))
                 
             elif active_window == "WEB":
@@ -1598,7 +1878,7 @@ def main():
                     btn_go = pygame.Rect(WIDTH//2 + 150, HEIGHT//2, 80, 40)
                     pygame.draw.rect(os_surf, BLUE, btn_go)
                     pygame.draw.rect(os_surf, BLACK, btn_go, 2)
-                    gt = font.render("Go", True, WHITE)
+                    gt = font.render(get_text('go'), True, WHITE)
                     os_surf.blit(gt, (btn_go.x + 25, btn_go.y + 10))
                     
                     if mission_sys.popup_text:
@@ -1609,7 +1889,10 @@ def main():
             os_surf.set_alpha(ui_alpha)
             screen.blit(os_surf, (0, 0))
         
-        mission_sys.draw_overlays(screen)
+        if sm.current != 'Start':
+            mission_sys.check_conditions(devices, connections, packets)
+            mission_sys.draw_mission_text(screen)
+            mission_sys.draw_overlays(screen)
         sm.draw(screen)
         
         pygame.display.flip()

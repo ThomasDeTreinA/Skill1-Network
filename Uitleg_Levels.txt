@@ -1,0 +1,53 @@
+=========================================
+NETWORK SIMULATOR - LEVEL UITLEG & GIDS
+=========================================
+
+Welkom bij de gids voor de Network Simulator! In deze game leer je de basis van netwerkarchitectuur, bekabeling en IP-configuratie.
+
+--- 1. OVERZICHT VAN DE LEVELS ---
+
+LEVEL 1: DE BASIS (LAN & KABELS)
+- Wat leer je: Het verschil tussen Cat 5 en Cat 5e kabels.
+- Doel: Verbind apparaten en begrijp dat afstand invloed heeft op kabelkeuze.
+- Tip: Gebruik Cat 5e voor langere afstanden (tot 1000m simulatie).
+
+LEVEL 2: ROUTING & IP CONFIGURATIE
+- Wat leer je: Hoe je een Router en PC handmatig een IP-adres geeft.
+- Doel: Configureer de gateway (Router) en de PC zodat ze met elkaar kunnen praten.
+- Belangrijk: Het Subnet Mask moet voor beide apparaten hetzelfde zijn.
+
+LEVEL 3: HET WAN (WORLD AREA NETWORK)
+- Wat leer je: Het verbinden van twee verschillende locaties via WAN Fiber.
+- Doel: Bouw een lokaal netwerk in twee verschillende huizen en verbind ze via de wereldkaart.
+- Extra: Leer draadloze verbindingen (Wi-Fi) te leggen met een Laptop.
+
+--- 2. BEDIENING & KNOPPEN ---
+
+MUIS:
+- Klikken op apparaten: Open het besturingssysteem van het apparaat.
+- Slepen met Linkermuisknop: Trek kabels van het ene naar het andere apparaat.
+- Scrollen: (Indien van toepassing) In- of uitzoomen.
+
+TOETSENBORD:
+- [1] : Selecteer PC om te plaatsen.
+- [2] : Selecteer Laptop om te plaatsen.
+- [3] : Selecteer Switch om te plaatsen.
+- [4] : Selecteer Router om te plaatsen.
+- [D] : Verwijder-modus (klik op apparaat of kabel om te wissen).
+- [SPATIE] : Verstuur een data-pakketje tussen de verste eindpunten.
+
+--- 3. DEVELOPER SHORTCUTS (DEV) ---
+
+Wil je snel testen? Gebruik deze verborgen combinaties:
+- [F] + [K] (2 seconden ingedrukt houden): Sla alles over en ga direct naar Level 3 (House 1).
+- IP Sneltoetsen: Sommige velden vullen automatisch standaardwaardes in bij dubbelklikken (simulatie-afhankelijk).
+
+--- 4. FREE MODE ---
+
+Na het voltooien van Level 3 kom je in de 'Free Mode'.
+Hier ben je vrij om:
+- Alle huizen op de wereldkaart te betreden.
+- Gigantische netwerken te bouwen zonder beperkingen.
+- Je eigen verbindingen tussen continenten (huizen) te simuleren.
+
+Veel plezier met bouwen!
