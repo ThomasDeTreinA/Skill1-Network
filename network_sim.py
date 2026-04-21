@@ -175,20 +175,20 @@ small_font = pygame.font.SysFont("Arial", 16)
 
 bg_img = None
 try:
-    bg_img = pygame.image.load(os.path.join(BASE_DIR, "background.png")).convert()
+    bg_img = pygame.image.load(os.path.join(BASE_DIR, "Background", "background.png")).convert()
     bg_img = pygame.transform.smoothscale(bg_img, (WIDTH, HEIGHT))
 except Exception as e:
     pass
 
 gc_img = None
 try:
-    gc_img = pygame.image.load(os.path.join(BASE_DIR, "GreenCircle.png")).convert_alpha()
+    gc_img = pygame.image.load(os.path.join(BASE_DIR, "Icons", "GreenCircle.png")).convert_alpha()
 except Exception as e:
     pass
 
 arrow_img = None
 try:
-    img = pygame.image.load(os.path.join(BASE_DIR, "arrow.png")).convert_alpha()
+    img = pygame.image.load(os.path.join(BASE_DIR, "Icons", "arrow.webp")).convert_alpha()
     arrow_img = pygame.transform.smoothscale(img, (80, 80))
 except Exception as e:
     pass
@@ -204,47 +204,45 @@ sm = None
 
 data_img = None
 try:
-    img = pygame.image.load(os.path.join(BASE_DIR, "data.png")).convert_alpha()
+    img = pygame.image.load(os.path.join(BASE_DIR, "Icons", "data.png")).convert_alpha()
     data_img = pygame.transform.smoothscale(img, (35, 35))
 except Exception as e:
     pass
 
 tm_img = None
 try:
-    img = pygame.image.load(os.path.join(BASE_DIR, "thomasmore.png")).convert_alpha()
+    img = pygame.image.load(os.path.join(BASE_DIR, "WebPages", "thomasmore.png")).convert_alpha()
     tm_img = pygame.transform.smoothscale(img, (500, 270))
 except Exception as e:
-    try:
-        img = pygame.image.load(os.path.join(BASE_DIR, "thomasmore.jpg")).convert_alpha()
-        tm_img = pygame.transform.smoothscale(img, (500, 270))
-    except Exception as e2:
-        pass
+    print(f"ERROR loading thomasmore.png: {e}")
+    pass
 
-def load_icon(filename, size=(50, 50)):
+def load_icon(folder, filename, size=(50, 50)):
     if '.' not in filename:
         for ext in ['.png', '.jpg', '.jpeg', '.webp']:
-            filepath = os.path.join(BASE_DIR, filename + ext)
+            filepath = os.path.join(BASE_DIR, folder, filename + ext)
             if os.path.exists(filepath):
                 filename += ext
                 break
                 
-    filepath = os.path.join(BASE_DIR, filename)
+    filepath = os.path.join(BASE_DIR, folder, filename)
     try:
         img = pygame.image.load(filepath).convert_alpha()
         return pygame.transform.smoothscale(img, size)
     except Exception as e:
+        print(f"ERROR loading {filepath}: {e}")
         surf = pygame.Surface(size, pygame.SRCALPHA)
         pygame.draw.circle(surf, WHITE, (size[0]//2, size[1]//2), size[0]//2)
         return surf
 
 ICONS = {
-    'PC': load_icon("pc.png"),
-    'Laptop': load_icon("laptop.webp"),
-    'Switch': load_icon("switch.png"),
-    'Router': load_icon("router.webp"),
-    'DELETE': load_icon("delete"),
-    'House1': load_icon("huis1.png", size=(80, 80)),
-    'House2': load_icon("huis2.png", size=(80, 80)),
+    'PC': load_icon("Gear", "pc.png"),
+    'Laptop': load_icon("Gear", "laptop.webp"),
+    'Switch': load_icon("Gear", "switch.png"),
+    'Router': load_icon("Gear", "router.webp"),
+    'DELETE': load_icon("Icons", "delete.webp"),
+    'House1': load_icon("Houses", "huis1.png", size=(80, 80)),
+    'House2': load_icon("Houses", "huis2.png", size=(80, 80)),
 }
 
 EXT_ICONS = {}
@@ -252,14 +250,15 @@ def get_ext_icon(name):
     if name not in EXT_ICONS:
         filename = name
         if '.' not in filename:
-            for ext in ['.png', '.jpg']:
-                if os.path.exists(os.path.join(BASE_DIR, filename + ext)):
+            for ext in ['.png', '.jpg', '.webp']:
+                if os.path.exists(os.path.join(BASE_DIR, "Icons", filename + ext)):
                     filename += ext
                     break
         try:
-            img = pygame.image.load(os.path.join(BASE_DIR, filename)).convert_alpha()
+            img = pygame.image.load(os.path.join(BASE_DIR, "Icons", filename)).convert_alpha()
             EXT_ICONS[name] = pygame.transform.smoothscale(img, (60, 60))
-        except:
+        except Exception as e:
+            print(f"ERROR loading ext icon {name}: {e}")
             surf = pygame.Surface((60, 60), pygame.SRCALPHA)
             pygame.draw.rect(surf, GRAY, (0,0,60,60))
             EXT_ICONS[name] = surf
@@ -494,10 +493,10 @@ class SceneManager:
     def __init__(self):
         self.scenes = {
             'Start': {'devices': [], 'connections': [], 'packets': []},
-            'Level1': {'devices': [], 'connections': [], 'packets': []},
-            'House1': {'devices': [], 'connections': [], 'packets': []},
-            'House2': {'devices': [], 'connections': [], 'packets': []},
-            'World': {'devices': [], 'connections': [], 'packets': []}
+            'Level1': {'devices': [], 'connections': [], 'packets': [], 'bg_img': 'lab_bg.png'},
+            'House1': {'devices': [], 'connections': [], 'packets': [], 'bg_img': 'lab_bg.png'},
+            'House2': {'devices': [], 'connections': [], 'packets': [], 'bg_img': 'lab_bg.png'},
+            'World': {'devices': [], 'connections': [], 'packets': [], 'bg_img': 'wereldkaart_bg.png'}
         }
         self.current = 'Start'
         self.transition_alpha = 0
@@ -562,6 +561,9 @@ class SceneManager:
                 self.transition_state = "NONE"
 
     def draw(self, surface):
+        if self.current == 'Start':
+            self.draw_start_screen(surface)
+            
         if self.transition_alpha > 0:
             s = pygame.Surface((1000, 700), pygame.SRCALPHA)
             s.fill((0,0,0, min(255, max(0, self.transition_alpha))))
@@ -757,7 +759,7 @@ class MissionSystem:
         self.current_idx += 1
         self.overlay_alpha = 0
 
-    def draw_mission_text(self, surface):
+    def draw_mission_text(self, surface, devices):
         if self.wifi_timer > 0:
             t = font.render("Verbinding maken...", True, YELLOW)
             surface.blit(t, (WIDTH//2 - t.get_width()//2, 120))
@@ -780,9 +782,15 @@ class MissionSystem:
             y += 28
 
         if mission.type == "L1_EXP_MOUSE":
-            # Point to the area between devices
-            s = abs(math.sin(pygame.time.get_ticks() * 0.01))
-            pygame.draw.circle(surface, YELLOW, (200, 350), 30 + s*10, 2)
+            # Ghost cable animation between PC1 and PC2
+            pc1 = next((d for d in devices if d.id == 1), None)
+            pc2 = next((d for d in devices if d.id == 2), None)
+            if pc1 and pc2:
+                s = abs(math.sin(pygame.time.get_ticks() * 0.005))
+                alpha = int(100 + s * 155)
+                temp_s = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+                pygame.draw.line(temp_s, (255, 255, 0, alpha), (pc1.x, pc1.y), (pc2.x, pc2.y), 5)
+                surface.blit(temp_s, (0,0))
 
         if mission.type == "PLACE" and mission.target_pos:
             if gc_img:
@@ -805,7 +813,7 @@ class MissionSystem:
              s = abs(math.sin(pygame.time.get_ticks() * 0.01))
              pygame.draw.polygon(surface, YELLOW, [(px, py + 35 + s*10), (px-10, py+55+s*10), (px+10, py+55+s*10)])
 
-    def draw_overlays(self, surface):
+    def draw_overlays(self, surface, devices):
         if self.fail_timer > 0:
             surf = mission_font.render(self.fail_msg, True, RED, BLACK)
             surface.blit(surf, (WIDTH//2 - surf.get_width()//2, HEIGHT//2))
@@ -1174,6 +1182,8 @@ def main():
     
     dragging = False
     drag_start_dev = None
+    selected_house = None
+    mouse_pos = (0, 0)
     mouse_pos = (0, 0)
     
     active_device = None
@@ -1301,7 +1311,7 @@ def main():
                             sys.exit()
                         continue
                         
-                    # OS WINDOW CLICKS
+                    # OS WINDOW CLICKS (Highest Priority)
                     if active_device:
                         box = pygame.Rect(WIDTH//2 - 250, HEIGHT//2 - 150, 500, 300)
                         dist_to_red = math.hypot(event.pos[0] - (box.x + 15), event.pos[1] - (box.y + 15))
@@ -1309,57 +1319,41 @@ def main():
                             active_device = None
                             active_window = None
                             mission = mission_sys.get_current()
-                            if mission and mission.type == "CLOSE_WINDOW":
-                                mission_sys.advance()
+                            if mission and mission.type == "CLOSE_WINDOW": mission_sys.advance()
                             continue
                             
                         btn_back = pygame.Rect(box.x + 75, box.y + 4, 60, 22)
                         if active_window != "MENU" and btn_back.collidepoint(event.pos):
-                            if active_window == "WEB" and mission_sys.surf_success:
-                                pass # allow back to menu if successful
                             active_window = "MENU"
                             ui_alpha = 0
                             continue
                             
                         if active_window == "MENU":
                             bx, by = box.x + 50, box.y + 70
-                            options = []
-                            if active_device.type in ('PC', 'Laptop'):
-                                options = [(get_text('ip_settings'), "ip_instellingen.png"), (get_text('web_browsing'), "web_browsing.png"), (get_text('terminal'), "terminal.png")]
-                            else:
-                                options = [(get_text('ip_settings'), "ip_instellingen.png"), (get_text('restart'), "restart.png"), (get_text('reset'), "factory_reset.png")]
-                            
-                            for name, icon_file in options:
+                            options = [('ip_settings', "ip_instellingen.png"), ('web_browsing', "web_browsing.png"), ('terminal', "terminal.png")] if active_device.type in ('PC', 'Laptop') else [('ip_settings', "ip_instellingen.png"), ('restart', "restart.png"), ('reset', "factory_reset.png")]
+                            for key, icon_file in options:
                                 r = pygame.Rect(bx, by, 100, 100)
                                 if r.collidepoint(event.pos):
-                                    if name == "IP Instellingen":
+                                    if key == "ip_settings":
                                         active_window = "IP"
                                         ui_alpha = 0
                                         ip_input.text = active_device.ip
                                         subnet_input.text = active_device.subnet
-                                    elif name == "Web Browsing" and active_device.type in ('PC', 'Laptop'):
+                                    elif key == "web_browsing" and active_device.type in ('PC', 'Laptop'):
                                         active_window = "WEB"
                                         ui_alpha = 0
                                         url_input.text = "www."
-                                        mission_sys.surf_success = False
-                                        mission_sys.popup_text = ""
-                                    elif name == "Restart":
-                                        active_device = None
-                                        active_window = None
-                                    elif name == "Factory Reset":
-                                        active_device.ip = ""
-                                        active_device.subnet = ""
+                                        mission_sys.surf_success, mission_sys.popup_text = False, ""
+                                    elif key == "restart": active_device = active_window = None
+                                    elif key == "reset": active_device.ip = active_device.subnet = ""
                                     break
                                 bx += 130
-                                
                         elif active_window == "IP":
                             ip_input.handle_event(event)
                             subnet_input.handle_event(event)
                             btn_save = pygame.Rect(WIDTH//2 - 50, HEIGHT//2 + 90, 100, 30)
                             if btn_save.collidepoint(event.pos):
-                                active_device.ip = ip_input.text
-                                active_device.subnet = subnet_input.text
-                                
+                                active_device.ip, active_device.subnet = ip_input.text, subnet_input.text
                         elif active_window == "WEB":
                             if not mission_sys.surf_success:
                                 url_input.handle_event(event)
@@ -1368,24 +1362,14 @@ def main():
                                     if url_input.text == "www.thomasmore.be":
                                         if active_device.ip:
                                             path = find_path_to_type(devices, connections, active_device, 'Router')
-                                            if path:
-                                                router = path[-1]
-                                                if router.ip:
-                                                    mission_sys.surf_success = True
-                                                    mission_sys.popup_text = ""
-                                                    m = mission_sys.get_current()
-                                                    if m and m.type == "SURF":
-                                                        mission_sys.advance()
-                                                else:
-                                                    mission_sys.popup_text = "Fout: Router IP of Subnet incorrect."
-                                            else:
-                                                mission_sys.popup_text = "Fout: Geen route naar een Router."
-                                        else:
-                                            mission_sys.popup_text = "Fout: PC heeft geen IP-adres."
-                                    else:
-                                        mission_sys.popup_text = "Fout: 404 Website niet gevonden."
-                        
-                        continue # Block world clicks when OS is open
+                                            if path and path[-1].ip:
+                                                mission_sys.surf_success, mission_sys.popup_text = True, ""
+                                                m = mission_sys.get_current()
+                                                if m and m.type == "SURF": mission_sys.advance()
+                                            else: mission_sys.popup_text = get_text('error_route') if not path else get_text('error_ip')
+                                        else: mission_sys.popup_text = get_text('error_no_ip')
+                                    else: mission_sys.popup_text = get_text('error_404')
+                        continue # Block all background interaction when OS is open
                         
                     # Educational Overlays dismissal (World Map fix)
                     mission = mission_sys.get_current()
@@ -1418,18 +1402,21 @@ def main():
                                 mission_sys.advance()
                             continue
                     
-                    # Entering houses from World Map
-                    if sm.current == 'World' and sm.transition_state == "NONE":
-                        # VERBETERING: Alleen huizen binnen als we geen kabel vasthebben (Huis Betreden modus)
-                        if mission_sys.overlay_alpha == 0 and current_cable is None:
-                            for d in devices:
-                                if d.type in ['House1', 'House2'] and not d.decorative:
-                                    dist = math.hypot(event.pos[0] - d.x, event.pos[1] - d.y)
-                                    if dist < d.radius + 10:
-                                        scene_name = "House1" if d.type == 'House1' else "House2"
-                                        sm.start_transition(scene_name, f"Inzoomen op {scene_name}...")
-                                        current_cable = 'Cat 5' # Reset naar standaard kabel bij binnengaan
-                                        break
+                    # House selection on World Map
+                    if sm.current == 'World' and not dragging and current_cable is None:
+                        for d in devices:
+                            if d.type in ('House1', 'House2'):
+                                # Relaxed hit box for house selection (radius + 20)
+                                if math.hypot(d.x - event.pos[0], d.y - event.pos[1]) < d.radius + 20:
+                                    selected_house = d
+                                    break
+                    
+                    # Entering houses from World Map (CLICK ON THE BUTTON)
+                    if btn_enter_house.collidepoint(event.pos) and selected_house and sm.current == 'World' and not dragging:
+                        scene_name = selected_house.type
+                        sm.start_transition(scene_name, f"Inzoomen op {scene_name}...")
+                        current_cable = None # Transition to building mode (reset cable)
+                        continue
             
                     # Terug naar Wereldknop (Alleen in Huis 2!)
                     if sm.current == 'House2' and mission_sys.level == 3:
@@ -1440,19 +1427,15 @@ def main():
                     # INTRO popup click handler (General)
                     if mission and mission.type in ("INTRO", "L1_EXP_PC", "L1_EXP_LAP", "L1_EXP_SW", "L1_EXP_RT", "L1_EXP_MOUSE"):
                         box = pygame.Rect(WIDTH//2 - 400, HEIGHT//2 - 200, 800, 400)
-                        if mission.type == "INTRO":
-                            if box.collidepoint(event.pos):
-                                mission_sys.advance()
-                        else:
-                            # Advance icon explanation on ANY click
+                        if box.collidepoint(event.pos):
                             mission_sys.advance()
-                        continue
+                            continue
 
                     if mission and mission.type == "EXPLANATION_CAT5":
                         box = pygame.Rect(WIDTH//2 - 350, HEIGHT//2 - 180, 700, 360)
                         if box.collidepoint(event.pos):
                             mission_sys.advance()
-                        continue
+                            continue
                     if mission and mission.type == "EXPLANATION_1":
                         box = pygame.Rect(WIDTH//2 - 350, HEIGHT//2 - 180, 700, 360)
                         if box.collidepoint(event.pos):
@@ -1600,7 +1583,7 @@ def main():
                                     continue
                             
                             # Restrictions: Geen apparaten op de wereldkaart
-                            if sm.current == 'World':
+                            if sm.current == 'World' or dragging:
                                 continue
                                 
                             new_dev = Device(event.pos[0], event.pos[1], current_mode)
@@ -1617,6 +1600,19 @@ def main():
             
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
+                    # House selection on World Map
+                    if sm.current == 'World' and not dragging and current_cable is None:
+                        for d in devices:
+                            if d.type in ('House1', 'House2'):
+                                if math.hypot(d.x - event.pos[0], d.y - event.pos[1]) < d.radius:
+                                    selected_house = d
+                                    break
+                    
+                    if btn_enter_house.collidepoint(event.pos) and selected_house and sm.current == 'World' and not dragging and current_cable is None:
+                        sm.start_transition(selected_house.type, get_text('trans_zoom_in'))
+                        current_cable = 'Cat 5' 
+                        continue
+
                     if dragging and drag_start_dev:
                         target_dev = None
                         for d in devices:
@@ -1664,8 +1660,17 @@ def main():
             elif event.type == pygame.MOUSEMOTION:
                 mouse_pos = event.pos
                 
-        for c in connections: c.draw(screen)
             
+        # --- RENDERING ---
+        if sm.current != 'Start':
+            if bg_img:
+                screen.blit(bg_img, (0, 0))
+            else:
+                screen.fill((30, 30, 40)) # Fallback background
+        
+        # 1. Connections & Dragging Line
+        for c in connections: c.draw(screen)
+        
         if dragging and drag_start_dev and current_cable in CABLES:
             c1x, c1y = drag_start_dev.cable_c
             drag_dist = math.hypot(c1x - mouse_pos[0], c1y - mouse_pos[1])
@@ -1673,24 +1678,18 @@ def main():
                 max_dist = CABLES[current_cable]['max_dist']
                 max_m = CABLES[current_cable]['max_m']
                 dist_m = int(drag_dist / 4)
-                
                 color = CABLES[current_cable]['color'] if drag_dist <= max_dist else RED
-                
                 angle = math.atan2(mouse_pos[1] - c1y, mouse_pos[0] - c1x)
                 d1_dist = drag_start_dev.cable_dist(angle)
-                start_x = c1x + math.cos(angle) * d1_dist
-                start_y = c1y + math.sin(angle) * d1_dist
-                
+                start_x, start_y = c1x + math.cos(angle) * d1_dist, c1y + math.sin(angle) * d1_dist
                 pygame.draw.line(screen, color, (start_x, start_y), mouse_pos, 4)
-                
-                if drag_dist > max_dist:
-                    msg_too_long = "Too long!" if current_lang == 'en' else "Trop long!" if current_lang == 'fr' else "Te lang!"
-                    text = small_font.render(f"{msg_too_long} {dist_m}m / {max_m}m", True, RED)
-                else:
-                    msg_max = "Max" if current_lang != 'nl' else "Max" # Same for all?
-                    text = small_font.render(f"{dist_m}m ({msg_max} {max_m}m)", True, WHITE)
+                msg_too_long = "Too long!" if current_lang == 'en' else "Trop long!" if current_lang == 'fr' else "Te lang!"
+                msg_max = "Max" if current_lang != 'nl' else "Max"
+                text_str = f"{msg_too_long} {dist_m}m / {max_m}m" if drag_dist > max_dist else f"{dist_m}m ({msg_max} {max_m}m)"
+                text = small_font.render(text_str, True, RED if drag_dist > max_dist else WHITE)
                 screen.blit(text, (mouse_pos[0] + 10, mouse_pos[1] + 10))
-            
+
+        # 2. Packets
         new_packets = []
         for p in packets:
             p.update()
@@ -1699,21 +1698,37 @@ def main():
                 new_packets.append(p)
             else:
                 mission_sys.packets_delivered += 1
-                
         packets = new_packets
         curr['packets'] = packets
 
         for d in devices: d.draw(screen, sm.current)
         
-        # World Map extra visuals
+        # World Map extra visuals (Road & Street)
         if sm.current == 'World':
-            # Street Name
-            st_font = pygame.font.SysFont(None, 40, bold=True)
-            st_txt = st_font.render("Stationsstraat", True, (200, 200, 200))
-            screen.blit(st_txt, (30, 640))
+            # Draw the road itself
+            pygame.draw.rect(screen, (50, 50, 55), (0, 320, WIDTH, 60)) # Asphalt
+            pygame.draw.rect(screen, (70, 70, 75), (0, 315, WIDTH, 5))  # Top shoulder
+            pygame.draw.rect(screen, (70, 70, 75), (0, 380, WIDTH, 5))  # Bottom shoulder
+            # Lane marking (dashed)
+            for x in range(0, WIDTH, 60):
+                pygame.draw.line(screen, WHITE, (x, 350), (x + 30, 350), 2)
+            
+            # Label
+            st_font = pygame.font.SysFont(None, 45, bold=True)
+            st_shad = st_font.render("Stationsstraat", True, BLACK)
+            screen.blit(st_shad, (32, 282))
+            st_txt = st_font.render("Stationsstraat", True, YELLOW)
+            screen.blit(st_txt, (30, 280))
+            
+            # Highlight selected house
+            if selected_house:
+                pygame.draw.circle(screen, YELLOW, (selected_house.x, selected_house.y), selected_house.radius + 15, 3)
+                # Pulse highlight shadow
+                s = abs(math.sin(pygame.time.get_ticks() * 0.005))
+                pygame.draw.circle(screen, YELLOW, (selected_house.x, selected_house.y), selected_house.radius + 15 + s*5, 1)
 
         # Laptop Wi-Fi Placement Guide
-        if current_mode == 'Laptop' and sm.current != 'World':
+        if current_mode == 'Laptop' and sm.current != 'World' and sm.current != 'Start':
             for d in devices:
                 if d.type == 'Router':
                     # Best placement zone (80px to 200px)
@@ -1726,72 +1741,79 @@ def main():
                     pygame.draw.circle(screen, CYAN, (d.x, d.y), 80, 1)
 
         # UI overlays
-        for m_t, r in btn_modi.items():
-            # Restriction: No devices placement on World Map
-            if sm.current == 'World' and m_t != 'DELETE':
-                continue
+        show_main_ui = sm.current != 'Start'
+        curr_m = mission_sys.get_current()
+        # Only hide UI during full-screen overlays/intros
+        if curr_m and (curr_m.type == 'INTRO' or curr_m.type.startswith('EXPLANATION') or curr_m.type in ('L3_TO_WORLD_1', 'L3_WORLD_1', 'L3_TO_WORLD_2')):
+            show_main_ui = False
+            
+        if show_main_ui:
+            for m_t, r in btn_modi.items():
+                # Restriction: No devices placement on World Map
+                if sm.current == 'World' and m_t != 'DELETE':
+                    continue
+                    
+                bgcolor = (100, 200, 100) if current_mode == m_t else (60, 60, 60)
+                if m_t == 'DELETE':
+                    bgcolor = RED if current_mode == 'DELETE' else (60, 60, 60)
+                pygame.draw.rect(screen, bgcolor, r)
+                pygame.draw.rect(screen, WHITE, r, 2)
                 
-            bgcolor = (100, 200, 100) if current_mode == m_t else (60, 60, 60)
-            if m_t == 'DELETE':
-                bgcolor = RED if current_mode == 'DELETE' else (60, 60, 60)
-            pygame.draw.rect(screen, bgcolor, r)
-            pygame.draw.rect(screen, WHITE, r, 2)
-            
-            icon = ICONS.get(m_t)
-            if icon:
-                scaled_icon = pygame.transform.smoothscale(icon, (30, 30))
-                icon_x = r.x + 25 if m_t == 'DELETE' else r.x + 15
-                screen.blit(scaled_icon, (icon_x, r.y + 25))
-            
-            if m_t == 'DELETE':
-                dt2 = small_font.render("[D]", True, WHITE)
-                screen.blit(dt2, (r.x + 30, r.y + 5))
-            else:
-                num_map = {'PC': '1', 'Laptop': '2', 'Switch': '3', 'Router': '4'}
-                t = font.render(num_map.get(m_t, ''), True, WHITE)
-                screen.blit(t, (r.x + 5, r.y + 2))
+                icon = ICONS.get(m_t)
+                if icon:
+                    scaled_icon = pygame.transform.smoothscale(icon, (30, 30))
+                    icon_x = r.x + 25 if m_t == 'DELETE' else r.x + 15
+                    screen.blit(scaled_icon, (icon_x, r.y + 25))
                 
-        # Space button (only show/enable in appropriate phases)
-        pygame.draw.rect(screen, (60, 60, 60), btn_data)
-        pygame.draw.rect(screen, WHITE, btn_data, 2)
-        if data_img:
-            scaled_data = pygame.transform.smoothscale(data_img, (30, 30))
-            screen.blit(scaled_data, (btn_data.x + 25, btn_data.y + 5))
-        dt = small_font.render(f"[{get_text('spacebar')}]", True, WHITE)
-        screen.blit(dt, (btn_data.x + 10, btn_data.y + 35))
+                if m_t == 'DELETE':
+                    dt2 = small_font.render("[D]", True, WHITE)
+                    screen.blit(dt2, (r.x + 30, r.y + 5))
+                else:
+                    num_map = {'PC': '1', 'Laptop': '2', 'Switch': '3', 'Router': '4'}
+                    t = font.render(num_map.get(m_t, ''), True, WHITE)
+                    screen.blit(t, (r.x + 5, r.y + 2))
+                    
+            # Space button (only show/enable in appropriate phases)
+            pygame.draw.rect(screen, (60, 60, 60), btn_data)
+            pygame.draw.rect(screen, WHITE, btn_data, 2)
+            if data_img:
+                scaled_data = pygame.transform.smoothscale(data_img, (30, 30))
+                screen.blit(scaled_data, (btn_data.x + 25, btn_data.y + 5))
+            dt = small_font.render(f"[{get_text('spacebar')}]", True, WHITE)
+            screen.blit(dt, (btn_data.x + 10, btn_data.y + 35))
 
-        menu_title = font.render(get_text('select_cable') if 'select_cable' in LANGS[current_lang] else ("Choose Cable:" if current_lang == 'en' else "Choisir Câble:" if current_lang == 'fr' else "Kies Kabel:"), True, WHITE)
-        screen.blit(menu_title, (810, 50))
-        
-        for btn, name in [(btn_cat5, 'Cat 5'), (btn_cat5e, 'Cat 5e'), (btn_wan, 'WAN Fiber')]:
-            # Restriction: Only WAN Fiber on World map, No WAN Fiber in House
-            if sm.current == 'World' and name != 'WAN Fiber': continue
-            if sm.current != 'World' and name == 'WAN Fiber': continue
+            menu_title = font.render(get_text('select_cable') if 'select_cable' in LANGS[current_lang] else ("Choose Cable:" if current_lang == 'en' else "Choisir Câble:" if current_lang == 'fr' else "Kies Kabel:"), True, WHITE)
+            screen.blit(menu_title, (810, 50))
             
-            btn_color = (60, 60, 60) if current_cable != name else (100, 200, 100)
-            pygame.draw.rect(screen, btn_color, btn)
-            pygame.draw.rect(screen, WHITE, btn, 2)
-            lbl_key = 'cat5_label' if name == 'Cat 5' else 'cat5e_label' if name == 'Cat 5e' else 'wan_label'
-            t = font.render(get_text(lbl_key), True, WHITE)
-            screen.blit(t, (btn.x + 10, btn.y + 10))
-        # Terug naar Wereldknop tekenen (Alleen in Huis 2!)
-        if sm.current == 'House2' and mission_sys.level == 3:
-            btn_w = pygame.Rect(20, HEIGHT//2 - 20, 220, 40)
-            pygame.draw.rect(screen, (70, 70, 90), btn_w)
-            pygame.draw.rect(screen, CYAN, btn_w, 2)
-            tw = font.render(get_text('to_world'), True, WHITE)
-            screen.blit(tw, (btn_w.x + btn_w.width//2 - tw.get_width()//2, btn_w.y + 10))
+            for btn, name in [(btn_cat5, 'Cat 5'), (btn_cat5e, 'Cat 5e'), (btn_wan, 'WAN Fiber')]:
+                # Restriction: Only WAN Fiber on World map, No WAN Fiber in House
+                if sm.current == 'World' and name != 'WAN Fiber': continue
+                if sm.current != 'World' and name == 'WAN Fiber': continue
+                
+                btn_color = (60, 60, 60) if current_cable != name else (100, 200, 100)
+                pygame.draw.rect(screen, btn_color, btn)
+                pygame.draw.rect(screen, WHITE, btn, 2)
+                lbl_key = 'cat5_label' if name == 'Cat 5' else 'cat5e_label' if name == 'Cat 5e' else 'wan_label'
+                t = font.render(get_text(lbl_key), True, WHITE)
+                screen.blit(t, (btn.x + 10, btn.y + 10))
+            # Terug naar Wereldknop tekenen (Alleen in Huis 2!)
+            if sm.current == 'House2' and mission_sys.level == 3:
+                btn_w = pygame.Rect(20, HEIGHT//2 - 20, 220, 40)
+                pygame.draw.rect(screen, (70, 70, 90), btn_w)
+                pygame.draw.rect(screen, CYAN, btn_w, 2)
+                tw = font.render(get_text('to_world'), True, WHITE)
+                screen.blit(tw, (btn_w.x + btn_w.width//2 - tw.get_width()//2, btn_w.y + 10))
 
-        # Huis Betreden Knop op Wereldkaart
-        if sm.current == 'World':
-            color = GREEN if current_cable is None else (60, 60, 80)
-            pygame.draw.rect(screen, color, btn_enter_house, 0, 5)
-            pygame.draw.rect(screen, WHITE, btn_enter_house, 2, 5)
-            tt = font.render(get_text('enter_house'), True, WHITE)
-            screen.blit(tt, (btn_enter_house.x + btn_enter_house.width//2 - tt.get_width()//2, btn_enter_house.y + 15))
-            
-            # Pijl naar knop bij missie naar H2 (PAS ALS POPUP WEG IS)
-            m = mission_sys.get_current()
+            # Huis Betreden Knop op Wereldkaart
+            if sm.current == 'World':
+                color = GREEN if selected_house and current_cable is None and not dragging else (60, 60, 80)
+                pygame.draw.rect(screen, color, btn_enter_house, 0, 5)
+                pygame.draw.rect(screen, WHITE, btn_enter_house, 2, 5)
+                tt = font.render(get_text('enter_house'), True, WHITE)
+                screen.blit(tt, (btn_enter_house.x + btn_enter_house.width//2 - tt.get_width()//2, btn_enter_house.y + 15))
+                
+                # Pijl naar knop bij missie naar H2 (PAS ALS POPUP WEG IS)
+                m = mission_sys.get_current()
         if active_device:
             if ui_alpha < 255:
                 ui_alpha = min(255, ui_alpha + 25)
@@ -1837,11 +1859,11 @@ def main():
                 bx, by = box.x + 50, box.y + 70
                 options = []
                 if active_device.type in ('PC', 'Laptop'):
-                    options = [("IP Instellingen", "ip_instellingen.png"), ("Web Browsing", "web_browsing.png"), ("Terminal", "terminal.png")]
+                    options = [('ip_settings', "ip_instellingen.png"), ('web_browsing', "web_browsing.png"), ('terminal', "terminal.png")]
                 else:
-                    options = [("IP Instellingen", "ip_instellingen.png"), ("Restart", "restart.png"), ("Factory Reset", "factory_reset.png")]
+                    options = [('ip_settings', "ip_instellingen.png"), ('restart', "restart.png"), ('reset', "factory_reset.png")]
                 
-                for name, icon_file in options:
+                for key, icon_file in options:
                     r = pygame.Rect(bx, by, 100, 100)
                     pygame.draw.rect(os_surf, (220, 220, 220), r)
                     pygame.draw.rect(os_surf, GRAY, r, 2)
@@ -1849,9 +1871,11 @@ def main():
                     icon = get_ext_icon(icon_file)
                     if icon:
                         os_surf.blit(icon, (bx + 20, by + 10))
-                        
-                    t = small_font.render(name, True, BLACK)
-                    os_surf.blit(t, (bx + 50 - t.get_width()//2, by + 80))
+                    
+                    # Label (Localized)
+                    lbl = font.render(get_text(key), True, BLACK)
+                    os_surf.blit(lbl, (bx + 50 - lbl.get_width()//2, by + 75))
+                    
                     bx += 130
                     
             elif active_window == "IP":
@@ -1891,8 +1915,8 @@ def main():
         
         if sm.current != 'Start':
             mission_sys.check_conditions(devices, connections, packets)
-            mission_sys.draw_mission_text(screen)
-            mission_sys.draw_overlays(screen)
+            mission_sys.draw_mission_text(screen, devices)
+            mission_sys.draw_overlays(screen, devices)
         sm.draw(screen)
         
         pygame.display.flip()
