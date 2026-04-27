@@ -1,7 +1,7 @@
 <div align="center">
-<!-- <img src="logo/logo.png" alt="Network logo" width="120"> -->
+  <img src="Images/Logo/LogoV2.png" alt="The BBNB Logo" width="120">
   <h1>🌐 Network Simulator</h1>
-  <p><i>Leer de basis van netwerkarchitectuur, bekabeling en IP-configuratie op een interactieve manier.</i></p>
+  <p><i>Leer stap voor stap de basis van netwerkarchitectuur, bekabeling en IP-configuraties op een interactieve manier.</i></p>
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/itfactory-tm/2025-2026-1itf-1-webdesign-essentials-ThomasDeTreinA)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/itfactory-tm/2025-2026-1itf-1-webdesign-essentials-ThomasDeTreinA/pulls)
@@ -13,49 +13,59 @@
 ## 🎮 Over het Project
 
 Welkom bij de **Network Simulator**! Deze game is ontworpen om studenten en enthousiastelingen wegwijs te maken in de
-wereld van netwerken. Van het trekken van de juiste kabels tot het configureren van wereldwijde verbindingen.
+wereld van netwerken. Van het trekken van de juiste kabels tot het configureren van ISP-gegevens en automatische
+DHCP-servers.
 
 ### 📚 Level Uitleg
 
-| Level       | Thema           | Wat je leert                                                         |
-| :---------- | :-------------- | :------------------------------------------------------------------- |
-| **Level 1** | 🔌 LAN & Kabels | Het verschil tussen Cat 5 en Cat 5e en de impact van afstand.        |
-| **Level 2** | 🛠️ Routing & IP | Handmatige IP-configuratie en het instellen van een Default Gateway. |
-| **Level 3** | 🌍 WAN & Wi-Fi  | Wereldwijde verbindingen via Fiber en draadloze netwerken opzetten.  |
+| Level       | Thema             | Wat je leert                                                                                        |
+| :---------- | :---------------- | :-------------------------------------------------------------------------------------------------- |
+| **Level 1** | 🔌 De Basis (LAN) | Gebruik van PC's, Hubs en Switches. Werken met **Straight-Through** kabels.                         |
+| **Level 2** | 🛠️ Routing & ISP  | Handmatige IP-configuratie, Subnet Masks en het instellen van **ISP-gegevens** op de router.        |
+| **Level 3** | 🌍 DHCP & WAN     | **DHCP** activatie, **Crossover** kabels gebruiken en navigeren tussen gebouwen via de Wereldkaart. |
 
 ---
 
-## ⌨️ Bediening & Sneltoetsen
+## ⌨️ Bediening & Toolbar
 
-In de simulator kun je gebruikmaken van de volgende knoppen om je netwerk op te bouwen:
+In de simulator gebruik je de toolbar aan de boven- en rechterkant om je netwerk op te bouwen:
 
-- **[1] PC**: Plaats een vaste werkplek.
-- **[2] Laptop**: Voor mobiele apparaten (Kabel of Wi-Fi).
-- **[3] Switch**: Het centrale punt voor je lokale netwerk.
-- **[4] Router**: Verbind verschillende netwerken met elkaar.
-- **[D] Verwijderen**: Activeer de verwijder-modus voor kabels of apparaten.
-- **[SPATIE]**: Verstuur een test-datapakketje.
+### Apparaten (Boven)
 
-> **Tip:** Dubbelklik op een apparaat om het "OS-menu" te openen voor IP-instellingen en de webbrowsersimulatie.
+- **[PC]**: Vaste werkplek, vereist een kabelverbinding.
+- **[Laptop]**: Draagbaar, verbindt automatisch via **Wi-Fi** binnen de blauwe ring.
+- **[Switch/Hub]**: Verdeelpunten voor je lokale netwerk.
+- **[Router]**: Het hart van het netwerk voor routing en **DHCP**.
+- **[Delete]**: Activeer de verwijder-modus (Toets `D`) voor kabels of apparaten.
+
+### Kabels (Rechts)
+
+- **Straight-Through**: Voor verschillende apparaten (bijv. PC naar Switch).
+- **Crossover**: Voor gelijke apparaten (bijv. Router naar Router).
+
+> **Tip:** Klik op een apparaat om het **OS-scherm** te openen. Hier vind je de IP-instellingen, DHCP-configuratie en de
+> webbrowser om de Thomas More website te bezoeken.
 
 ---
 
-## 🛠️ Developer Shortcuts
-
-Voor snelle tests kun je de volgende combinaties gebruiken:
+## 🛠️ Developer Shortcuts & Free Mode
 
 - **Level Skip**: Houd `F` + `K` gedurende 2 seconden ingedrukt om direct naar Level 3 te springen.
 - **Auto-fill**: Dubbelklik op IP-invoervelden voor snelle standaardwaarden.
+- **🚀 Free Mode**: Na het voltooien van Level 3 speel je de Free Mode vrij. Hier kun je elk huis op de wereldkaart vrij
+  inrichten zonder beperkingen!
 
 ---
 
 ## 💡 Tips voor Succes
 
-1.  **Kleurcodes**: Een rode kabel betekent dat de afstand te groot is. Gebruik een Switch als versterker of stap over
-    op Cat 5e/Fiber.
-2.  **Internetverbinding**: Geen toegang tot de website? Controleer of je PC in hetzelfde subnet zit als de router
-    (bijv. `192.168.1.x`).
-3.  **Wi-Fi Bereik**: Laptops moeten binnen de blauwe cirkel van de router staan om verbinding te maken.
+1.  **Kabel Check**: Werkt de verbinding niet? Controleer of je de juiste kabel gebruikt (**Straight vs Crossover**).
+2.  **ISP Gegevens**: Zorg dat je de juiste providergegevens invult op de router in Level 2 om internettoegang te
+    krijgen.
+3.  **DHCP**: In Level 3 hoef je IP's niet meer handmatig in te vullen; activeer DHCP op de router en de PC's regelen de
+    rest.
+4.  **Wereldkaart**: Je kunt alleen bouwen **binnen** in een huis. Gebruik de wereldkaart enkel om naar een ander gebouw
+    te reizen.
 
 ---
 
