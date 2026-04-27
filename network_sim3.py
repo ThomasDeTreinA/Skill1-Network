@@ -779,7 +779,8 @@ class MissionSystem:
                 Mission("Bonus: Plaats een extra PC maar geef hem GEEN IP.", "PLACE", dev_type="PC", target_count=2),
                 Mission("Verbind de nieuwe PC ook met de Router.", "CONNECT_R2"),
                 Mission("Stuur een pakketje (SPATIE). Hij bereikt PC zonder IP NIET!", "L2_TEST_IP_FAIL"),
-                Mission("Geef de nieuwe PC nu ook een IP (192.168.1.3).", "CONF_3_PCS"),
+                Mission("Lees waarom een IP-adres essentieel is.", "L2_IP_WHY_POPUP"),
+                Mission("Geef de nieuwe PC nu ook een IP (192.168.1.3) en Subnet Mask (255.255.255.0).", "CONF_3_PCS"),
                 Mission("Level 2 voltooid! Je begrijpt nu ISP, Gateways en IP-beveiliging.", "EXPLANATION_2")
             ]
         elif self.level == 3:
@@ -814,7 +815,6 @@ class MissionSystem:
                 Mission("Klik Router 1 -> ISP Instellingen.", "CONF_ISP"),
                 Mission("Lees de uitleg over ISP gegevens.", "L2_EXPLAIN_ISP"),
                 Mission("Vul de ISP gegevens in voor Router 1.", "FILL_ISP"),
-                Mission("Open de Terminal van de Router en ping 'www.google.com'.", "L2_PING_TEST"),
                 Mission("Stel Router 1 LAN IP in: 192.168.1.1, Subnet Mask: 255.255.255.0", "CONF_ROUTER"),
                 Mission("Klik voor uitleg over DHCP (Dynamic Host Configuration Protocol).", "L3_EXPLAIN_DHCP"),
                 Mission("Zet de DHCP Server 'AAN' in de instellingen van Router 1.", "L3_ENABLE_DHCP_SRV"),
@@ -824,11 +824,8 @@ class MissionSystem:
                 Mission("Wereldkaart: Selecteer Huis 3 en klik op 'HUIS BETREDEN'.", "L3_WORLD_2_IN"),
                 Mission("Huis 3: Plaats een Router, Switch, 1 PC.\nVerbind: Router->Switch en Switch->PC.", "L3_BUILD_H2"),
                 Mission("Huis 3 voltooid! Terug naar de Wereldkaart...", "L3_TO_WORLD_2"),
-                Mission("Kies nu rechts de 'WAN Fiber' kabel.", "L3_PICK_WAN"),
-                Mission("Verbind op de kaart Huis 1 en Huis 2 met de WAN kabel!", "L3_CONNECT_WAN"),
-                Mission("Gefeliciteerd! Test de verbinding door een pakketje te sturen\ntussen de huizen met SPATIE.", "L3_SEND_P_WAN"),
-                Mission("WAN Netwerk voltooid! Je bent nu in Free Mode.", "EXPLANATION_FIN"),
-                Mission("Level 3 voltooid! Je bent nu in Free Mode.", "DONE")
+                Mission("Gefeliciteerd! Je hebt beide netwerken afgerond en Level 3 voltooid!", "EXPLANATION_FIN"),
+                Mission("Je bent nu in Free Mode. Veel plezier!", "DONE")
             ]
         self.current_idx = 0
         self.packets_delivered = 0
@@ -851,9 +848,9 @@ class MissionSystem:
         mission = self.get_current()
         if not mission or mission.type == "DONE":
             text = get_text('free_mode') if not mission else mission.text
-            t_surf = mission_font.render(text, True, CYAN)
-            # Move way up to avoid toolbar overlap but clear the center (was 165, now 130)
-            surface.blit(t_surf, (WIDTH//2 - t_surf.get_width()//2, 130))
+            t_surf = mission_font.render(text, True, YELLOW)
+            # Display at the bottom instead of top
+            surface.blit(t_surf, (WIDTH//2 - t_surf.get_width()//2, HEIGHT - 60))
             return
 
         # Special guidance for ISP mission
@@ -877,9 +874,7 @@ class MissionSystem:
             surface.blit(g_surf, (WIDTH//2 - g_surf.get_width()//2, HEIGHT - 45))
             return # Don't draw the other redundant texts
 
-        t_surf = mission_font.render(mission.text, True, CYAN)
-        # Move mission text way up to clear center area (was 200, now 130)
-        surface.blit(t_surf, (WIDTH//2 - t_surf.get_width()//2, 130))
+        # Redundant cyan text removed as per user request
 
         lines = mission.text.split('\n')
         if mission.type == "L3_BUILD_H2" and sm.current != "House2":
@@ -1212,6 +1207,35 @@ class MissionSystem:
                 surf = font.render(l, True, WHITE)
                 ov_surf.blit(surf, (box.x + 350 - surf.get_width()//2, y))
                 y += 28
+            ov_surf.set_alpha(self.overlay_alpha)
+            surface.blit(ov_surf, (0,0))
+
+        elif mission and mission.type == "L2_IP_WHY_POPUP":
+            if self.overlay_alpha < 255: self.overlay_alpha = min(255, self.overlay_alpha + 15)
+            ov_surf = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+            box = pygame.Rect(WIDTH//2 - 350, HEIGHT//2 - 180, 700, 360)
+            pygame.draw.rect(ov_surf, (40, 50, 70), box)
+            pygame.draw.rect(ov_surf, CYAN, box, 4)
+            
+            lines = [
+                "WAAROM IS EEN IP-ADRES BELANGRIJK?",
+                "",
+                "Zoals je zag, kwam het pakketje NIET aan bij de nieuwe PC.",
+                "Zonder IP-adres is een apparaat onzichtbaar op het netwerk.",
+                "",
+                "Vergelijk het met een huis zonder huisnummer:",
+                "De postbode (het pakketje) weet wel waar de straat is,",
+                "maar kan de brief niet afleveren omdat het adres ontbreekt!",
+                "",
+                "Een IP-adres zorgt ervoor dat data de juiste bestemming vindt.",
+                "",
+                "Klik hier om de nieuwe PC ook een adres te geven."
+            ]
+            y = box.y + 30
+            for l in lines:
+                surf = font.render(l, True, WHITE)
+                ov_surf.blit(surf, (box.x + 350 - surf.get_width()//2, y))
+                y += 26
             ov_surf.set_alpha(self.overlay_alpha)
             surface.blit(ov_surf, (0,0))
 
@@ -1765,10 +1789,12 @@ def main():
                     # Educational Overlays dismissal (Highest Priority, above OS)
                     mission = mission_sys.get_current()
                     if mission and sm.transition_state == "NONE":
-                        if mission.type in ("INTRO", "INTRO_L2", "L1_EXP_PC", "L1_EXP_LAP", "L1_EXP_SW", "L1_EXP_HUB", "L1_EXP_RT", "L1_EXP_MOUSE", "L2_EXPLAIN_ISP", "EXPLANATION_CAT5", "EXPLANATION_CROSS", "L3_EXPLAIN_DHCP"):
+                        if mission.type in ("INTRO", "INTRO_L2", "L1_EXP_PC", "L1_EXP_LAP", "L1_EXP_SW", "L1_EXP_HUB", "L1_EXP_RT", "L1_EXP_MOUSE", "L2_EXPLAIN_ISP", "L2_IP_WHY_POPUP", "EXPLANATION_CAT5", "EXPLANATION_CROSS", "L3_EXPLAIN_DHCP"):
                             box = pygame.Rect(WIDTH//2 - 400, HEIGHT//2 - 200, 800, 400)
                             if mission.type == "INTRO_L2":
                                 box = pygame.Rect(500 - 350, 350 - 150, 700, 300)
+                            elif mission.type == "L2_IP_WHY_POPUP":
+                                box = pygame.Rect(WIDTH//2 - 350, HEIGHT//2 - 180, 700, 360)
                             elif mission.type in ("L2_EXPLAIN_ISP", "L3_EXPLAIN_DHCP"):
                                 box = pygame.Rect(WIDTH//2 - 350, HEIGHT//2 - 200, 700, 400)
                             elif mission.type in ("EXPLANATION_CAT5", "EXPLANATION_CROSS"):
@@ -1788,6 +1814,7 @@ def main():
                         if mission.type == "L3_TO_WORLD_1":
                             box = pygame.Rect(150, 250, 700, 200)
                             if box.collidepoint(event.pos):
+                                active_device = active_window = None
                                 sm.start_transition("World", "Uitzoomen naar de Wereldkaart...")
                                 if not any(d.type == 'House1' and not d.decorative for d in sm.scenes['World']['devices']):
                                     house_types = ['House1', 'House2', 'House3', 'House4']
@@ -1801,12 +1828,14 @@ def main():
                         if mission.type == "L3_TO_WORLD_2":
                             box = pygame.Rect(150, 250, 700, 200)
                             if box.collidepoint(event.pos):
+                                active_device = active_window = None
                                 sm.start_transition("World", "Uitzoomen naar de Wereldkaart...")
                                 mission_sys.advance()
                                 continue
                         if mission.type == "EXPLANATION_1":
                             box = pygame.Rect(WIDTH//2 - 350, HEIGHT//2 - 180, 700, 360)
                             if box.collidepoint(event.pos):
+                                active_device = active_window = None
                                 mission_sys.level = 2
                                 devices.clear()
                                 connections.clear()
@@ -1817,6 +1846,7 @@ def main():
                         if mission.type == "EXPLANATION_2":
                             box = pygame.Rect(WIDTH//2 - 400, HEIGHT//2 - 200, 800, 400)
                             if box.collidepoint(event.pos):
+                                active_device = active_window = None
                                 mission_sys.level = 3
                                 devices.clear()
                                 connections.clear()
@@ -1944,17 +1974,19 @@ def main():
                             isp_dns_p_input.handle_event(event)
                             isp_dns_s_input.handle_event(event)
                             
-                            btn_save_isp = pygame.Rect(WIDTH//2 - 50, HEIGHT//2 + 120, 100, 30)
+                            # Sync with drawn button: box.x + box.width//2 - 75, box.y + 340, 150, 40
+                            # where box.x = WIDTH//2 - 280, box.y = HEIGHT//2 - 200
+                            btn_save_isp = pygame.Rect(WIDTH//2 - 75, HEIGHT//2 + 140, 150, 40)
                             if btn_save_isp.collidepoint(event.pos):
-                                active_device.public_ip = isp_ip_input.text
-                                active_device.public_subnet = isp_subnet_input.text
-                                active_device.public_gw = isp_gw_input.text
-                                active_device.dns_p = isp_dns_p_input.text
-                                active_device.dns_s = isp_dns_s_input.text
+                                active_device.public_ip = isp_ip_input.text.strip()
+                                active_device.public_subnet = isp_subnet_input.text.strip()
+                                active_device.public_gw = isp_gw_input.text.strip()
+                                active_device.dns_p = isp_dns_p_input.text.strip()
+                                active_device.dns_s = isp_dns_s_input.text.strip()
                                 active_device.isp = "Manual" # Mark as configured
                                 active_window = "IP"
                                 ui_alpha = 0
-                            continue
+                                continue
                         elif active_window == "WEB":
                             if not mission_sys.surf_success:
                                 url_input.handle_event(event)
@@ -2246,6 +2278,7 @@ def main():
                         
                         if not clicked_anything and event.pos[1] > 100:
                             mission = mission_sys.get_current()
+                            new_dev = None
                             # Placement safety check
                             if mission and ("PLACE" in mission.type):
                                 # If the mission type contains 'PLACE' (e.g., PLACE, L3_PLACE_2RT, L3_PLACE_PC)
@@ -2267,7 +2300,7 @@ def main():
                                         # Free placement (no specific circle) but restricted to correct type
                                         new_dev = Device(event.pos[0], event.pos[1], current_mode)
                                         devices.append(new_dev)
-                            elif mission and mission.type not in ("DONE", "FREE"):
+                            elif mission and mission.type not in ("DONE", "FREE", "L3_BUILD_H2"):
                                 # If there is an active mission but it's NOT a placement mission
                                 mission_sys.fail_msg = "Hellaaa dat was de opdracht niet! Eerst de huidige taak afmaken."
                                 mission_sys.fail_timer = 180
@@ -2275,14 +2308,16 @@ def main():
                                 # Free mode or non-restrictive mission phases
                                 new_dev = Device(event.pos[0], event.pos[1], current_mode)
                                 devices.append(new_dev)
-                                if current_mode == 'Laptop':
-                                    for d in devices:
-                                        if d.type == 'Router':
-                                            dist = math.hypot(d.x - new_dev.x, d.y - new_dev.y)
-                                            if dist < CABLES['Wi-Fi']['max_dist']:
-                                                connections.append(Connection(new_dev, d, 'Wi-Fi'))
-                                                mission_sys.wifi_timer = 90
-                                                break
+                                
+                            # Check Wi-Fi connection for newly placed laptop
+                            if new_dev and new_dev.type == 'Laptop':
+                                for d in devices:
+                                    if d.type == 'Router':
+                                        dist = math.hypot(d.x - new_dev.x, d.y - new_dev.y)
+                                        if dist < CABLES['Wi-Fi']['max_dist']:
+                                            connections.append(Connection(new_dev, d, 'Wi-Fi'))
+                                            mission_sys.wifi_timer = 90
+                                            break
                     
             elif event.type == pygame.MOUSEMOTION:
                 mouse_pos = event.pos
@@ -2410,8 +2445,8 @@ def main():
             
         if show_main_ui:
             for m_t, r in btn_modi.items():
-                # Restriction: No devices placement on World Map
-                if sm.current == 'World' and m_t != 'DELETE':
+                # Restriction: No devices placement or delete on World Map
+                if sm.current == 'World':
                     continue
                     
                 bgcolor = (100, 200, 100) if current_mode == m_t else (60, 60, 60)
@@ -2443,44 +2478,41 @@ def main():
                     l_surf = small_font.render(lbl_text, True, WHITE)
                     screen.blit(l_surf, (r.x + r.width//2 - l_surf.get_width()//2, r.y + 60))
                     
-            # Space button (only show/enable in appropriate phases)
-            pygame.draw.rect(screen, (60, 60, 60), btn_data)
-            pygame.draw.rect(screen, WHITE, btn_data, 2)
-            
-            # Label ABOVE icon
-            dt = small_font.render(f"[{get_text('spacebar')}]", True, WHITE)
-            screen.blit(dt, (btn_data.x + 5, btn_data.y + 2))
-            
-            if data_img:
-                scaled_data = pygame.transform.smoothscale(data_img, (30, 30))
-                screen.blit(scaled_data, (btn_data.x + 25, btn_data.y + 30))
-            
-            # Label BELOW icon for consistency
-            p_lbl = small_font.render("Pakket", True, WHITE)
-            screen.blit(p_lbl, (btn_data.x + btn_data.width//2 - p_lbl.get_width()//2, btn_data.y + 60))
-
-            menu_title = font.render(get_text('select_cable') if 'select_cable' in LANGS[current_lang] else ("Choose Cable:" if current_lang == 'en' else "Choisir Câble:" if current_lang == 'fr' else "Kies Kabel:"), True, WHITE)
-            screen.blit(menu_title, (810, 50))
-            
-            # Level 1 & 2: Show Cat 5 + Cat 5e; Level 3+: Show Straight + Crossover
-            level_low = (mission_sys.level <= 2 and sm.current != 'World')
-            if level_low:
-                cable_btns = [(btn_straight, 'Cat 5'), (btn_cross, 'Cat 5e')]
-            else:
-                cable_btns = [(btn_straight, 'Straight'), (btn_cross, 'Crossover'), (btn_wan, 'WAN Fiber')]
-            
-            for btn, name in cable_btns:
-                # Restriction: Only WAN Fiber on World map, No WAN Fiber in House
-                if sm.current == 'World' and name != 'WAN Fiber': continue
-                if sm.current != 'World' and name == 'WAN Fiber': continue
+            if sm.current != 'World':
+                # Space button (only show/enable in appropriate phases)
+                pygame.draw.rect(screen, (60, 60, 60), btn_data)
+                pygame.draw.rect(screen, WHITE, btn_data, 2)
                 
-                btn_color = (60, 60, 60) if current_cable != name else (100, 200, 100)
-                pygame.draw.rect(screen, btn_color, btn)
-                pygame.draw.rect(screen, WHITE, btn, 2)
-                lbl_key = 'cat_straight' if name in ('Straight', 'Cat 5') else 'cat_cross' if name in ('Crossover', 'Cat 5e') else 'wan_label'
-                label = 'Cat 5' if name == 'Cat 5' else 'Cat 5e' if name == 'Cat 5e' else get_text(lbl_key)
-                t = font.render(label, True, WHITE)
-                screen.blit(t, (btn.x + 10, btn.y + 10))
+                # Label ABOVE icon
+                dt = small_font.render(f"[{get_text('spacebar')}]", True, WHITE)
+                screen.blit(dt, (btn_data.x + 5, btn_data.y + 2))
+                
+                if data_img:
+                    scaled_data = pygame.transform.smoothscale(data_img, (30, 30))
+                    screen.blit(scaled_data, (btn_data.x + 25, btn_data.y + 30))
+                
+                # Label BELOW icon for consistency
+                p_lbl = small_font.render("Pakket", True, WHITE)
+                screen.blit(p_lbl, (btn_data.x + btn_data.width//2 - p_lbl.get_width()//2, btn_data.y + 60))
+
+                menu_title = font.render(get_text('select_cable') if 'select_cable' in LANGS[current_lang] else ("Choose Cable:" if current_lang == 'en' else "Choisir Câble:" if current_lang == 'fr' else "Kies Kabel:"), True, WHITE)
+                screen.blit(menu_title, (810, 50))
+                
+                # Level 1 & 2: Show Cat 5 + Cat 5e; Level 3+: Show Straight + Crossover
+                level_low = (mission_sys.level <= 2)
+                if level_low:
+                    cable_btns = [(btn_straight, 'Cat 5'), (btn_cross, 'Cat 5e')]
+                else:
+                    cable_btns = [(btn_straight, 'Straight'), (btn_cross, 'Crossover')]
+                
+                for btn, name in cable_btns:
+                    btn_color = (60, 60, 60) if current_cable != name else (100, 200, 100)
+                    pygame.draw.rect(screen, btn_color, btn)
+                    pygame.draw.rect(screen, WHITE, btn, 2)
+                    lbl_key = 'cat_straight' if name in ('Straight', 'Cat 5') else 'cat_cross' if name in ('Crossover', 'Cat 5e') else 'wan_label'
+                    label = 'Cat 5' if name == 'Cat 5' else 'Cat 5e' if name == 'Cat 5e' else get_text(lbl_key)
+                    t = font.render(label, True, WHITE)
+                    screen.blit(t, (btn.x + 10, btn.y + 10))
             # Terug naar Wereldknop tekenen (Alleen in Huis 2!)
             if sm.current == 'House2' and mission_sys.level == 3:
                 btn_w = pygame.Rect(20, HEIGHT//2 - 20, 220, 40)
