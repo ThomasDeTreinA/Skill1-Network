@@ -31,6 +31,7 @@ LANGS = {
         'ip_settings': 'IP Instellingen',
         'web_browsing': 'Web Browsing',
         'terminal': 'Terminal',
+        'wifi': 'WiFi',
         'restart': 'Herstarten',
         'reset': 'Factory Reset',
         'save': 'Opslaan',
@@ -169,6 +170,7 @@ ICONS = {
     'House2': load_icon("Houses", "huis2.png", size=(80, 80)),
     'House3': load_icon("Houses", "huis3.png", size=(80, 80)),
     'House4': load_icon("Houses", "huis4.png", size=(80, 80)),
+    'WIFI': load_icon("Icons", "wifi.png", size=(130, 130)),
 }
 
 # --- GLOBAL UI BUTTONS ---
@@ -334,6 +336,7 @@ class TextInput:
         self.rect = pygame.Rect(x, y, w, h)
         self.text = default
         self.active = False
+        self.password_mode = False
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -350,11 +353,11 @@ class TextInput:
     def draw(self, surface):
         self.rect.x = self.x
         self.rect.y = self.y
-        color = BLUE if self.active else GRAY
         pygame.draw.rect(surface, WHITE, self.rect)
-        pygame.draw.rect(surface, color, self.rect, 2)
-        txt = font.render(self.text, True, BLACK)
-        surface.blit(txt, (self.rect.x + 5, self.rect.y + 2))
+        pygame.draw.rect(surface, BLACK if not self.active else BLUE, self.rect, 2)
+        display_text = self.text if not self.password_mode else "*" * len(self.text)
+        t = font.render(display_text, True, BLACK)
+        surface.blit(t, (self.rect.x + 5, self.rect.y + 5))
 
 class Connection:
     def __init__(self, d1, d2, cable_type='Cat 5'):
@@ -474,7 +477,8 @@ class PacketPath:
             if ((c.d1 == from_dev and c.d2 == to_dev) or
                 (c.d2 == from_dev and c.d1 == to_dev)):
                 if c.cable_type == 'Wi-Fi':
-                    alpha = int(80 + 175 * abs(math.sin(pygame.time.get_ticks() * 0.008)))
+                    # Sharp blinking effect for wireless (5 blinks per second)
+                    alpha = 255 if (pygame.time.get_ticks() // 150) % 2 == 0 else 50
                 break
         
         if data_img:
@@ -726,6 +730,7 @@ class MissionSystem:
         self.packets_sent = 0  # counts every SPACE press attempt
         self.overlay_alpha = 0
         self.wifi_timer = 0
+        self.wait_timer = 0
         self.setup_level()
         
     def setup_level(self):
@@ -769,7 +774,12 @@ class MissionSystem:
                 Mission("Plaats een Router om als poort naar buiten te dienen.", "PLACE", target_pos=(500, 200), dev_type="Router"),
                 Mission("Een router krijgt een public IP van een ISP (internet provider).\nKlik Router -> IP Instellingen -> Klik op ISP Instellingen.", "CONF_ISP"),
                 Mission("Lees de uitleg over ISP gegevens.", "L2_EXPLAIN_ISP"),
-                Mission("Vul de Publieke IP gegevens in (bijv. 8.8.8.8) en klik op Opslaan.", "FILL_ISP"),
+                Mission("Vul de Publieke IP gegevens in: 84.197.10.15", "L2_ISP_IP"),
+                Mission("Vul het Subnet Masker in: 255.0.0.0", "L2_ISP_SUB"),
+                Mission("Vul de Default Gateway in: 84.197.10.1", "L2_ISP_GW"),
+                Mission("Vul de Primary DNS in: 8.8.8.8", "L2_ISP_DNS1"),
+                Mission("Vul de Secondary DNS in: 8.8.4.4", "L2_ISP_DNS2"),
+                Mission("Klik nu op Opslaan om de ISP configuratie te voltooien.", "L2_ISP_SAVE"),
                 Mission("Stel nu de lokale IP in: 192.168.1.1, Subnet Mask: 255.255.255.0\nKlik op Opslaan.", "CONF_ROUTER"),
                 Mission("Mooi! Sluit het venster met de rode bol linksboven.", "CLOSE_WINDOW"),
                 Mission("Plaats een PC in het lokale netwerk.", "PLACE", target_pos=(300, 400), dev_type="PC"),
@@ -815,20 +825,28 @@ class MissionSystem:
                 Mission("Plaats 2 PC's rondom de Switch.", "PLACE", dev_type="PC", target_count=2),
                 Mission("Verbind: Router 1->Switch (Straight) en Switch->2x PC.", "L3_CONNECT_LAN"),
                 Mission("Klik Router 1 -> ISP Instellingen.", "CONF_ISP"),
-                Mission("Lees de uitleg over ISP gegevens.", "L2_EXPLAIN_ISP"),
-                Mission("Vul de ISP gegevens in voor Router 1.", "FILL_ISP"),
+                Mission("Lees de uitleg over ISP gegevens voor Huis 1.", "L3_EXPLAIN_ISP_H1"),
+                Mission("Vul de ISP IP gegevens in: 193.191.1.20", "L3_H1_ISP_IP"),
+                Mission("Vul het Subnet Masker in: 255.0.0.0", "L3_H1_ISP_SUB"),
+                Mission("Vul de Default Gateway in: 193.191.0.1", "L3_H1_ISP_GW"),
+                Mission("Vul de Primary DNS in: 8.8.8.8", "L3_H1_ISP_DNS1"),
+                Mission("Vul de Secondary DNS in: 8.8.4.4", "L3_H1_ISP_DNS2"),
+                Mission("Klik nu op Opslaan.", "L3_H1_ISP_SAVE"),
                 Mission("Stel Router 1 LAN IP in: 192.168.1.1, Subnet Mask: 255.255.255.0", "CONF_ROUTER"),
                 Mission("Klik voor uitleg over DHCP (Dynamic Host Configuration Protocol).", "L3_EXPLAIN_DHCP"),
                 Mission("Zet de DHCP Server 'AAN' in de instellingen van Router 1.", "L3_ENABLE_DHCP_SRV"),
                 Mission("Zet DHCP aan op BEIDE PC's in hun IP-instellingen.", "L3_USE_DHCP"),
-                Mission("Plaats een Laptop in het kantoor nabij de routers.\nDeze verbindt automatisch draadloos (Wi-Fi)!", "L3_PLACE_LAPTOP"),
+                Mission("Stel Router 2 LAN IP in: 192.168.1.254, Subnet Mask: 255.255.255.0", "L3_H1_R2_LAN"),
+                Mission("Plaats een derde PC bij Router 2 en verbind deze (Straight).", "L3_H1_PC3"),
+                Mission("Zet PC 3 op DHCP in zijn IP-instellingen.", "L3_H1_DHCP_PC3"),
+                Mission("Stuur een pakketje (SPATIE) van PC 1 naar PC 2 en PC 3 door beide routers!", "L3_H1_FINAL_PACKET"),
                 Mission("Huis 1 is klaar! We gaan nu terug naar de kaart...", "L3_TO_WORLD_1"),
                 Mission("Wereldkaart: Selecteer Huis 3 en klik op 'HUIS BETREDEN'.", "L3_WORLD_2_IN"),
                 Mission("Huis 3: Plaats een PC, Switch en de eerste Router.", "L3_H2_START"),
                 Mission("Verbind: PC -> Switch -> Router 1 (Straight).", "L3_H2_CONNECT_P1"),
                 Mission("Plaats een tweede Router en verbind deze met Router 1 (Crossover).", "L3_H2_R2"),
-                Mission("Plaats een Laptop in de buurt van Router 2 (Wi-Fi).", "L3_H2_LAP"),
                 Mission("Configureer IPs: PC(192.168.2.2), R1(192.168.2.1), R2(192.168.3.1).", "L3_H2_IPS"),
+                Mission("Plaats een Laptop bij Router 2 en verbind hem handmatig via het WiFi menu (TM_intern, ww: iloveITF).", "L3_H2_LAP"),
                 Mission("Stuur een pakketje (SPATIE) van de PC naar de Laptop door beide routers!", "L3_H2_FINAL"),
                 Mission("Huis 3 voltooid! Terug naar de Wereldkaart...", "L3_TO_WORLD_2"),
                 Mission("Gefeliciteerd! Je hebt beide netwerken afgerond en Level 3 voltooid!", "EXPLANATION_FIN"),
@@ -1069,7 +1087,7 @@ class MissionSystem:
             y = box.y + 30
             for l in lines:
                 surf = font.render(l, True, WHITE)
-                ov_surf.blit(surf, (box.x + 400 - surf.get_width()//2, y))
+                ov_surf.blit(surf, (WIDTH//2 - surf.get_width()//2, y))
                 y += 30
                 
             ov_surf.set_alpha(self.overlay_alpha)
@@ -1090,7 +1108,7 @@ class MissionSystem:
             y = box.y + 50
             for l in lines:
                 surf = font.render(l, True, WHITE)
-                ov_surf.blit(surf, (box.x + 350 - surf.get_width()//2, y))
+                ov_surf.blit(surf, (WIDTH//2 - surf.get_width()//2, y))
                 y += 35
                 
             ov_surf.set_alpha(self.overlay_alpha)
@@ -1113,7 +1131,7 @@ class MissionSystem:
             y = box.y + 20
             for l in lines:
                 surf = font.render(l, True, WHITE)
-                ov_surf.blit(surf, (box.x + 400 - surf.get_width()//2, y))
+                ov_surf.blit(surf, (WIDTH//2 - surf.get_width()//2, y))
                 y += 25
                 
             ov_surf.set_alpha(self.overlay_alpha)
@@ -1130,7 +1148,7 @@ class MissionSystem:
             y = box.y + 20
             for l in lines:
                 surf = font.render(l, True, WHITE)
-                ov_surf.blit(surf, (box.x + 400 - surf.get_width()//2, y))
+                ov_surf.blit(surf, (WIDTH//2 - surf.get_width()//2, y))
                 y += 25
                 
             ov_surf.set_alpha(self.overlay_alpha)
@@ -1194,26 +1212,32 @@ class MissionSystem:
             ov_surf.set_alpha(self.overlay_alpha)
             surface.blit(ov_surf, (0,0))
 
-        elif mission and mission.type == "L2_EXPLAIN_ISP":
+        elif mission and mission.type in ("L2_EXPLAIN_ISP", "L3_EXPLAIN_ISP_H1"):
             if self.overlay_alpha < 255: self.overlay_alpha = min(255, self.overlay_alpha + 15)
             ov_surf = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
             box = pygame.Rect(WIDTH//2 - 350, HEIGHT//2 - 220, 700, 440)
             pygame.draw.rect(ov_surf, (40, 50, 70), box)
             pygame.draw.rect(ov_surf, YELLOW, box, 4)
             
+            if mission.type == "L2_EXPLAIN_ISP":
+                target_ip, target_sub, target_gw = "84.197.10.15", "255.0.0.0", "84.197.10.1"
+                title = "Level 2 ISP: Telenet Thuisnetwerk"
+            else:
+                target_ip, target_sub, target_gw = "193.191.1.20", "255.0.0.0", "193.191.0.1"
+                title = "Level 3 ISP: Thomas More Campus"
+
             lines = [
-                "UITLEG: ISP Instellingen (Publiek Netwerk)",
+                f"UITLEG: {title}",
                 "",
                 "Vul de volgende gegevens in bij de ISP instellingen:",
                 "",
-                "- Public IP: 193.190.124.107",
-                "- Subnet Mask: 255.0.0.0/8",
-                "- Default Gateway: 193.190.124.1",
+                f"- Public IP: {target_ip}",
+                f"- Subnet Mask: {target_sub}",
+                f"- Default Gateway: {target_gw}",
                 "- Primary DNS: 8.8.8.8",
                 "- Secondary DNS: 8.8.4.4",
                 "",
-                "In deze oefening moet je deze gegevens handmatig invoeren",
-                "zodat je begrijpt welke informatie een router nodig heeft.",
+                "Zorg dat deze uniek zijn! Elke aansluiting heeft zijn eigen IP.",
                 "",
                 "Klik hier om de gegevens in te vullen."
             ]
@@ -1254,7 +1278,7 @@ class MissionSystem:
             ov_surf.set_alpha(self.overlay_alpha)
             surface.blit(ov_surf, (0,0))
 
-    def check_conditions(self, devices, connections, packets, sm=None):
+    def check_conditions(self, devices, connections, packets, sm=None, active_window=None, active_device=None, isp_inputs=None):
         if self.wifi_timer > 0:
             self.wifi_timer -= 1
             
@@ -1345,20 +1369,53 @@ class MissionSystem:
                     return
         elif mission.type == "CONF_ISP":
             pass # Wordt afgehandeld in de klik van de knop
-        elif mission.type == "FILL_ISP":
+        elif mission.type == "L2_ISP_IP":
+            if active_window == "ISP" and isp_inputs and isp_inputs[0].text.strip() == "84.197.10.15":
+                self.advance()
+        elif mission.type == "L2_ISP_SUB":
+            if active_window == "ISP" and isp_inputs and isp_inputs[1].text.strip() == "255.0.0.0":
+                self.advance()
+        elif mission.type == "L2_ISP_GW":
+            if active_window == "ISP" and isp_inputs and isp_inputs[2].text.strip() == "84.197.10.1":
+                self.advance()
+        elif mission.type == "L2_ISP_DNS1":
+            if active_window == "ISP" and isp_inputs and isp_inputs[3].text.strip() == "8.8.8.8":
+                self.advance()
+        elif mission.type == "L2_ISP_DNS2":
+            if active_window == "ISP" and isp_inputs and isp_inputs[4].text.strip() == "8.8.4.4":
+                self.advance()
+        elif mission.type == "L2_ISP_SAVE":
             for d in devices:
                 if d.type == 'Router' and getattr(d, 'isp', None) == "Manual":
-                    # Check for exact correct values as requested by user
-                    if (d.public_ip == "193.190.124.107" and 
+                    if (d.public_ip == "84.197.10.15" and 
                         d.public_subnet == "255.0.0.0" and 
-                        d.public_gw == "193.190.124.1" and 
-                        d.dns_p == "8.8.8.8" and 
-                        d.dns_s == "8.8.4.4"):
+                        d.public_gw == "84.197.10.1"):
                         self.advance()
                         return
-                    else:
-                        # Reset for another try if wrong
-                        d.isp = None 
+
+        elif mission.type == "L3_H1_ISP_IP":
+            if active_window == "ISP" and isp_inputs and isp_inputs[0].text.strip() == "193.191.1.20":
+                self.advance()
+        elif mission.type == "L3_H1_ISP_SUB":
+            if active_window == "ISP" and isp_inputs and isp_inputs[1].text.strip() == "255.0.0.0":
+                self.advance()
+        elif mission.type == "L3_H1_ISP_GW":
+            if active_window == "ISP" and isp_inputs and isp_inputs[2].text.strip() == "193.191.0.1":
+                self.advance()
+        elif mission.type == "L3_H1_ISP_DNS1":
+            if active_window == "ISP" and isp_inputs and isp_inputs[3].text.strip() == "8.8.8.8":
+                self.advance()
+        elif mission.type == "L3_H1_ISP_DNS2":
+            if active_window == "ISP" and isp_inputs and isp_inputs[4].text.strip() == "8.8.4.4":
+                self.advance()
+        elif mission.type == "L3_H1_ISP_SAVE":
+            for d in devices:
+                if d.type == 'Router' and getattr(d, 'isp', None) == "Manual":
+                    if (d.public_ip == "193.191.1.20" and 
+                        d.public_subnet == "255.0.0.0" and 
+                        d.public_gw == "193.191.0.1"):
+                        self.advance()
+                        return
         elif mission.type == "L2_PING_TEST":
             # Wordt afgehandeld in terminal logic
             pass
@@ -1396,14 +1453,41 @@ class MissionSystem:
                     if c.cable_type == 'Crossover':
                         self.advance()
                         return
-        elif mission.type == "L3_PLACE_LAPTOP":
-            laptops = [d for d in devices if d.type == 'Laptop']
-            if laptops:
-                for l in laptops:
-                    for c in connections:
-                        if c.cable_type == 'Wi-Fi' and (c.d1 == l or c.d2 == l):
-                            self.advance()
-                            return
+        elif mission.type == "L3_H1_R2_LAN":
+            # Check for Router 2 LAN configuration
+            for d in devices:
+                if d.type == 'Router' and d.ip == "192.168.1.254" and d.subnet == "255.255.255.0":
+                    self.advance()
+                    return
+
+        elif mission.type == "L3_H1_PC3":
+            # Check if 3 PCs and 2 Routers are present and at least one PC is connected to a router
+            pcs = [d for d in devices if d.type == 'PC']
+            routers = [d for d in devices if d.type == 'Router']
+            if len(pcs) >= 3 and len(routers) >= 2:
+                for c in connections:
+                    if c.is_valid and {c.d1.type, c.d2.type} == {'PC', 'Router'}:
+                        self.advance()
+                        return
+
+        elif mission.type == "L3_H1_DHCP_PC3":
+            pcs = [d for d in devices if d.type == 'PC']
+            if len(pcs) >= 3 and all(p.dhcp for p in pcs):
+                self.advance()
+                self.packets_delivered = 0
+                return
+
+        elif mission.type == "L3_H1_FINAL_PACKET":
+            # Wait for 2 packets delivered (to PC2 and PC3)
+            if self.packets_delivered >= 2 and not packets:
+                if self.wait_timer == 0:
+                    self.wait_timer = 60 # ~1 second at 60 FPS
+                
+                self.wait_timer -= 1
+                if self.wait_timer <= 1:
+                    self.advance()
+                    self.wait_timer = 0
+                    return
         elif mission.type == "L3_START_WORLD":
             if sm.current == 'House1' and sm.transition_state == "NONE":
                 self.advance()
@@ -1583,7 +1667,10 @@ def main():
     # OS Inputs
     ip_input = TextInput(WIDTH//2 - 100, HEIGHT//2 - 40, 200, 30)
     subnet_input = TextInput(WIDTH//2 - 100, HEIGHT//2 + 30, 200, 30)
-    url_input = TextInput(WIDTH//2 - 200, HEIGHT//2 + 5, 300, 30, default="www.")
+    url_input = TextInput(WIDTH//2 - 100, HEIGHT//2, 250, 40, "www.")
+    term_input = TextInput(WIDTH//2 - 240, HEIGHT//2 + 115, 480, 30, ">")
+    wifi_pwd_input = TextInput(WIDTH//2 - 100, HEIGHT//2, 200, 30)
+    wifi_pwd_input.password_mode = True
     
     # ISP Public Inputs
     isp_ip_input = TextInput(WIDTH//2 - 100, HEIGHT//2 - 100, 200, 30)
@@ -1736,6 +1823,8 @@ def main():
                     isp_dns_s_input.handle_event(event)
                 elif active_device and active_window == "WEB" and not mission_sys.surf_success:
                     url_input.handle_event(event)
+                elif active_device and active_window == "WIFI_PWD":
+                    wifi_pwd_input.handle_event(event)
                 else:
                     if event.key == pygame.K_1: current_mode = 'PC'
                     elif event.key == pygame.K_2: current_mode = 'Laptop'
@@ -1765,6 +1854,35 @@ def main():
                             endpoints = [d for d in devices if d.type in ('PC', 'Laptop')]
                             routers = [d for d in devices if d.type == 'Router']
                             
+                            mission = mission_sys.get_current()
+                            if mission and mission.type == "L3_H1_FINAL_PACKET":
+                                # Send from PC 1 to PC 2 and PC 3
+                                if len(endpoints) >= 3:
+                                    start_pc = endpoints[0]
+                                    for target_pc in endpoints[1:]:
+                                        path = find_path(devices, connections, start_pc, target_pc)
+                                        if path and len(path) > 1:
+                                            packets.append(PacketPath(path))
+                                            mission_sys.packets_sent += 1
+                                continue
+                            
+                            if mission and mission.type == "L3_H2_FINAL":
+                                # Send specifically from PC to Laptop
+                                pc = next((d for d in devices if d.type == 'PC'), None)
+                                lap = next((d for d in devices if d.type == 'Laptop'), None)
+                                if pc and lap:
+                                    path = find_path(devices, connections, pc, lap)
+                                    if path and len(path) > 1:
+                                        packets.append(PacketPath(path))
+                                        mission_sys.packets_sent += 1
+                                    else:
+                                        mission_sys.fail_msg = "Geen verbinding gevonden tussen PC en Laptop!"
+                                        mission_sys.fail_timer = 120
+                                else:
+                                    mission_sys.fail_msg = "PC of Laptop niet gevonden!"
+                                    mission_sys.fail_timer = 120
+                                continue
+
                             if mission_sys.level >= 2 and routers:
                                 internet_source = routers[0]
                                 for ep in endpoints:
@@ -1849,14 +1967,14 @@ def main():
                     # Educational Overlays dismissal (Highest Priority, above OS)
                     mission = mission_sys.get_current()
                     if mission and sm.transition_state == "NONE":
-                        if mission.type in ("INTRO", "INTRO_L2", "L1_EXP_PC", "L1_EXP_LAP", "L1_EXP_SW", "L1_EXP_HUB", "L1_EXP_RT", "L1_EXP_MOUSE", "L2_EXPLAIN_ISP", "L2_IP_WHY_POPUP", "EXPLANATION_CAT5", "EXPLANATION_CROSS", "L3_EXPLAIN_DHCP"):
+                        if mission.type in ("INTRO", "INTRO_L2", "L1_EXP_PC", "L1_EXP_LAP", "L1_EXP_SW", "L1_EXP_HUB", "L1_EXP_RT", "L1_EXP_MOUSE", "L2_EXPLAIN_ISP", "L3_EXPLAIN_ISP_H1", "L2_IP_WHY_POPUP", "EXPLANATION_CAT5", "EXPLANATION_CROSS", "L3_EXPLAIN_DHCP"):
                             box = pygame.Rect(WIDTH//2 - 400, HEIGHT//2 - 200, 800, 400)
                             if mission.type == "INTRO_L2":
                                 box = pygame.Rect(500 - 350, 350 - 150, 700, 300)
                             elif mission.type == "L2_IP_WHY_POPUP":
                                 box = pygame.Rect(WIDTH//2 - 350, HEIGHT//2 - 180, 700, 360)
-                            elif mission.type in ("L2_EXPLAIN_ISP", "L3_EXPLAIN_DHCP"):
-                                box = pygame.Rect(WIDTH//2 - 350, HEIGHT//2 - 200, 700, 400)
+                            elif mission.type in ("L2_EXPLAIN_ISP", "L3_EXPLAIN_ISP_H1", "L3_EXPLAIN_DHCP"):
+                                box = pygame.Rect(WIDTH//2 - 350, HEIGHT//2 - 220, 700, 440)
                             elif mission.type in ("EXPLANATION_CAT5", "EXPLANATION_CROSS"):
                                 box = pygame.Rect(WIDTH//2 - 350, HEIGHT//2 - 180, 700, 360)
                             
@@ -1914,6 +2032,13 @@ def main():
                                 mission_sys.setup_level()
                                 current_mode = 'PC'
                                 continue
+                        
+                        if mission.type == "EXPLANATION_FIN":
+                            box = pygame.Rect(WIDTH//2 - 400, HEIGHT//2 - 200, 800, 400)
+                            if box.collidepoint(event.pos):
+                                active_device = active_window = None
+                                mission_sys.advance()
+                                continue
 
                     # OS WINDOW CLICKS
                     if active_device:
@@ -1934,7 +2059,13 @@ def main():
                             
                         if active_window == "MENU":
                             bx, by = box.x + 50, box.y + 70
-                            options = [('ip_settings', "ip_instellingen.png"), ('web_browsing', "web_browsing.png"), ('terminal', "terminal.png")] if active_device.type in ('PC', 'Laptop') else [('ip_settings', "ip_instellingen.png"), ('terminal', "terminal.png"), ('restart', "restart.png")]
+                            if active_device.type == 'Laptop':
+                                options = [('wifi', "wifi.png"), ('web_browsing', "web_browsing.png"), ('terminal', "terminal.png")]
+                            elif active_device.type == 'PC':
+                                options = [('ip_settings', "ip_instellingen.png"), ('web_browsing', "web_browsing.png"), ('terminal', "terminal.png")]
+                            else:
+                                options = [('ip_settings', "ip_instellingen.png"), ('terminal', "terminal.png"), ('restart', "restart.png")]
+                            
                             for key, icon_file in options:
                                 r = pygame.Rect(bx, by, 130, 130) # Vergroten naar 130x130
                                 if r.collidepoint(event.pos):
@@ -1952,6 +2083,9 @@ def main():
                                         active_window = "TERM"
                                         ui_alpha = 0
                                         term_input.text = ">"
+                                    elif key == "wifi":
+                                        active_window = "WIFI_LIST"
+                                        ui_alpha = 0
                                     elif key == "restart": active_device = active_window = None
                                     elif key == "reset": active_device.ip = active_device.subnet = ""
                                     break
@@ -2044,6 +2178,20 @@ def main():
                                 active_device.dns_p = isp_dns_p_input.text.strip()
                                 active_device.dns_s = isp_dns_s_input.text.strip()
                                 active_device.isp = "Manual" # Mark as configured
+                                
+                                # Force immediate mission check for better UX
+                                m = mission_sys.get_current()
+                                if m and m.type == "FILL_ISP_L2":
+                                    if (active_device.public_ip == "84.197.10.15" and 
+                                        active_device.public_subnet == "255.0.0.0" and 
+                                        active_device.public_gw == "84.197.10.1"):
+                                        mission_sys.advance()
+                                elif m and m.type == "FILL_ISP_L3_H1":
+                                    if (active_device.public_ip == "193.191.1.20" and 
+                                        active_device.public_subnet == "255.0.0.0" and 
+                                        active_device.public_gw == "193.191.0.1"):
+                                        mission_sys.advance()
+
                                 active_window = "IP"
                                 ui_alpha = 0
                                 continue
@@ -2085,6 +2233,46 @@ def main():
                                     term_output.append(f"Onbekend commando: {cmd}")
                                 term_input.text = ">"
                                 if len(term_output) > 10: term_output.pop(0)
+                        
+                        elif active_window == "WIFI_LIST":
+                            nets = ["Free_WiFi_Station", "Telenet-ABCD", "TM_intern"]
+                            ny = HEIGHT//2 - 150 + 90
+                            for net in nets:
+                                btn_net = pygame.Rect(WIDTH//2 - 250 + 50, ny, 300, 40)
+                                if btn_net.collidepoint(event.pos):
+                                    if net == "TM_intern":
+                                        active_window = "WIFI_PWD"
+                                        wifi_pwd_input.text = ""
+                                        mission_sys.popup_text = ""
+                                    else:
+                                        mission_sys.popup_text = "Beveiligd netwerk. Toegang geweigerd."
+                                    break
+                                ny += 50
+                        
+                        elif active_window == "WIFI_PWD":
+                            wifi_pwd_input.handle_event(event)
+                            btn_conn = pygame.Rect(WIDTH//2 - 250 + 50, HEIGHT//2 - 150 + 150, 120, 40)
+                            if btn_conn.collidepoint(event.pos):
+                                if wifi_pwd_input.text == "iloveITF":
+                                    # Succes! Connect laptop to nearest router
+                                    router = next((d for d in devices if d.type == 'Router'), None)
+                                    if router:
+                                        # Check distance
+                                        dist = math.hypot(router.x - active_device.x, router.y - active_device.y)
+                                        if dist < CABLES['Wi-Fi']['max_dist']:
+                                            # Check if already connected
+                                            exists = any(c.cable_type == 'Wi-Fi' and (c.d1 == active_device or c.d2 == active_device) for c in connections)
+                                            if not exists:
+                                                connections.append(Connection(active_device, router, 'Wi-Fi'))
+                                            active_window = "MENU"
+                                            mission_sys.popup_text = "Verbonden!"
+                                        else:
+                                            mission_sys.popup_text = "Signaal te zwak!"
+                                    else:
+                                        mission_sys.popup_text = "Geen router gevonden!"
+                                else:
+                                    mission_sys.popup_text = "Fout wachtwoord!"
+                        
                         continue # Block all background interaction when OS is open
                         
                     # Terug naar Wereldknop (Alleen in Huis 2!)
@@ -2127,6 +2315,18 @@ def main():
                             endpoints = [d for d in devices if d.type in ('PC', 'Laptop')]
                             routers = [d for d in devices if d.type == 'Router']
                             
+                            mission = mission_sys.get_current()
+                            if mission and mission.type == "L3_H1_FINAL_PACKET":
+                                # Send from PC 1 to PC 2 and PC 3
+                                if len(endpoints) >= 3:
+                                    start_pc = endpoints[0]
+                                    for target_pc in endpoints[1:]:
+                                        path = find_path(devices, connections, start_pc, target_pc)
+                                        if path and len(path) > 1:
+                                            packets.append(PacketPath(path))
+                                            mission_sys.packets_sent += 1
+                                continue
+
                             if mission_sys.level >= 2 and routers:
                                 internet_source = routers[0]
                                 for ep in endpoints:
@@ -2238,6 +2438,7 @@ def main():
                     
                     if btn_enter_house.collidepoint(event.pos) and selected_house and sm.current == 'World' and not dragging and current_cable is None:
                         sm.start_transition(selected_house.type, get_text('trans_zoom_in'))
+                        Device.reset_counts()
                         current_cable = 'Cat 5'
                         continue
 
@@ -2369,8 +2570,8 @@ def main():
                                 new_dev = Device(event.pos[0], event.pos[1], current_mode)
                                 devices.append(new_dev)
                                 
-                            # Check Wi-Fi connection for newly placed laptop
-                            if new_dev and new_dev.type == 'Laptop':
+                            # Check Wi-Fi connection (Disabled for Manual Wi-Fi mission in Level 3)
+                            if new_dev and new_dev.type == 'Laptop' and mission_sys.level < 3:
                                 for d in devices:
                                     if d.type == 'Router':
                                         dist = math.hypot(d.x - new_dev.x, d.y - new_dev.y)
@@ -2644,8 +2845,9 @@ def main():
             # Inner content
             if active_window == "MENU":
                 bx, by = box.x + 50, box.y + 70
-                options = []
-                if active_device.type in ('PC', 'Laptop'):
+                if active_device.type == 'Laptop':
+                    options = [('wifi', "wifi.png"), ('web_browsing', "web_browsing.png"), ('terminal', "terminal.png")]
+                elif active_device.type == 'PC':
                     options = [('ip_settings', "ip_instellingen.png"), ('web_browsing', "web_browsing.png"), ('terminal', "terminal.png")]
                 else:
                     options = [('ip_settings', "ip_instellingen.png"), ('restart', "restart.png"), ('reset', "factory_reset.png")]
@@ -2775,7 +2977,7 @@ def main():
             elif active_window == "WEB":
                 if not mission_sys.surf_success:
                     t = font.render("URL:", True, BLACK)
-                    os_surf.blit(t, (WIDTH//2 - 200, HEIGHT//2 - 25))
+                    os_surf.blit(t, (WIDTH//2 - 200, HEIGHT//2 + 5))
                     url_input.draw(os_surf)
                     
                     btn_go = pygame.Rect(WIDTH//2 + 150, HEIGHT//2, 80, 40)
@@ -2789,7 +2991,7 @@ def main():
                         txt = font.render(mission_sys.popup_text, True, color)
                         os_surf.blit(txt, (WIDTH//2 - txt.get_width()//2, HEIGHT//2 + 70))
                 
-                elif active_window == "TERM":
+            elif active_window == "TERM":
                     # Draw Terminal background
                     pygame.draw.rect(os_surf, (10, 10, 10), (box.x + 20, box.y + 40, box.width - 40, box.height - 80))
                     y_off = box.y + 50
@@ -2798,6 +3000,37 @@ def main():
                         os_surf.blit(t, (box.x + 30, y_off))
                         y_off += 20
                     term_input.draw(os_surf)
+                
+            elif active_window == "WIFI_LIST":
+                    title = font.render("Beschikbare netwerken:", True, BLUE)
+                    os_surf.blit(title, (box.x + 50, box.y + 50))
+                    
+                    nets = ["Free_WiFi_Station", "Telenet-ABCD", "TM_intern"]
+                    ny = box.y + 90
+                    for net in nets:
+                        btn_net = pygame.Rect(box.x + 50, ny, 300, 40)
+                        pygame.draw.rect(os_surf, (220, 220, 220), btn_net)
+                        pygame.draw.rect(os_surf, BLACK, btn_net, 1)
+                        nt = font.render(net, True, BLACK)
+                        os_surf.blit(nt, (btn_net.x + 10, btn_net.y + 10))
+                        ny += 50
+                
+            elif active_window == "WIFI_PWD":
+                    title = font.render("Wachtwoord voor TM_intern:", True, BLUE)
+                    os_surf.blit(title, (box.x + 50, box.y + 50))
+                    wifi_pwd_input.x = box.x + 50
+                    wifi_pwd_input.y = box.y + 90
+                    wifi_pwd_input.draw(os_surf)
+                    
+                    btn_conn = pygame.Rect(box.x + 50, box.y + 150, 120, 40)
+                    pygame.draw.rect(os_surf, GREEN, btn_conn)
+                    pygame.draw.rect(os_surf, BLACK, btn_conn, 2)
+                    ct = font.render("Verbinden", True, BLACK)
+                    os_surf.blit(ct, (btn_conn.x + 15, btn_conn.y + 10))
+                    
+                    if mission_sys.popup_text:
+                        pt = font.render(mission_sys.popup_text, True, RED)
+                        os_surf.blit(pt, (box.x + 50, box.y + 210))
             
             os_surf.set_alpha(ui_alpha)
             screen.blit(os_surf, (0, 0))
@@ -2818,7 +3051,7 @@ def main():
                              d.ip = "Searching..."
                              d.subnet = "---"
             
-            mission_sys.check_conditions(devices, connections, packets, sm)
+            mission_sys.check_conditions(devices, connections, packets, sm, active_window, active_device, (isp_ip_input, isp_subnet_input, isp_gw_input, isp_dns_p_input, isp_dns_s_input))
             mission_sys.draw_mission_text(screen, devices, isp_inputs=(isp_ip_input, isp_subnet_input, isp_gw_input, isp_dns_p_input, isp_dns_s_input))
             mission_sys.draw_overlays(screen, devices)
         sm.draw(screen)

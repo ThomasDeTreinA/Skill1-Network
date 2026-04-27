@@ -2,52 +2,40 @@
 NETWORK SIMULATOR - LEVEL UITLEG & GIDS
 =========================================
 
-Welkom bij de gids voor de Network Simulator! In deze game leer je de basis van netwerkarchitectuur, bekabeling en IP-configuratie.
+Welkom bij de gids voor de Network Simulator! In deze game leer je de basis van netwerkarchitectuur, bekabeling en IP-configuratie door het uitvoeren van missies.
 
 --- 1. OVERZICHT VAN DE LEVELS ---
 
 LEVEL 1: DE BASIS (LAN & KABELS)
-- Wat leer je: Het verschil tussen Cat 5 en Cat 5e kabels.
-- Doel: Verbind apparaten en begrijp dat afstand invloed heeft op kabelkeuze.
-- Tip: Gebruik Cat 5e voor langere afstanden (tot 1000m simulatie).
+- Wat leer je: Het plaatsen van eindapparaten en netwerkapparatuur (Switch/Hub).
+- Doel: Trek kabels tussen de apparaten om een lokaal netwerk te vormen.
+- Tip: Een Switch onthoudt waar data naartoe moet, een Hub stuurt data blind naar iedereen!
 
-LEVEL 2: ROUTING & IP CONFIGURATIE
-- Wat leer je: Hoe je een Router en PC handmatig een IP-adres geeft.
-- Doel: Configureer de gateway (Router) en de PC zodat ze met elkaar kunnen praten.
-- Belangrijk: Het Subnet Mask moet voor beide apparaten hetzelfde zijn.
+LEVEL 2: ROUTING, IP & ISP CONFIGURATIE
+- Wat leer je: Hoe je een Router en PC handmatig configureert.
+- Doel: Vul ISP (Internet Service Provider) gegevens in op de Router en geef de PC een correct IP en Subnet Mask om te kunnen surfen.
+- Belangrijk: Zonder een correct IP-adres of Subnet Mask komt een datapakketje nooit aan zijn bestemming.
 
-LEVEL 3: HET WAN (WORLD AREA NETWORK)
-- Wat leer je: Het verbinden van twee verschillende locaties via WAN Fiber.
-- Doel: Bouw een lokaal netwerk in twee verschillende huizen en verbind ze via de wereldkaart.
-- Extra: Leer draadloze verbindingen (Wi-Fi) te leggen met een Laptop.
+LEVEL 3: DHCP, CROSSOVER & MEERDERE HUIZEN
+- Wat leer je: Het verschil tussen Straight-Through en Crossover kabels. Automatische IP-uitgifte via DHCP. Het plaatsen van draadloze Laptops (Wi-Fi).
+- Doel: Bouw een geavanceerd netwerk met twee routers in het hoofdkantoor. Activeer de DHCP server en navigeer via de Wereldkaart naar Huis 3 om daar een lokaal netwerkje op te zetten.
+- Extra: Op de wereldkaart zie je het overzicht, maar je kunt pas weer bouwen als je een huis bent binnengegaan!
 
---- 2. BEDIENING & KNOPPEN ---
+--- 2. BEDIENING ---
 
 MUIS:
-- Klikken op apparaten: Open het besturingssysteem van het apparaat.
-- Slepen met Linkermuisknop: Trek kabels van het ene naar het andere apparaat.
-- Scrollen: (Indien van toepassing) In- of uitzoomen.
+- Linkermuisknop: Apparaten plaatsen, selecteren, of kabels trekken (ingedrukt houden op een apparaat).
+- Klikken op PC/Router: Opent het OS-scherm (IP Instellingen, DHCP instellingen, ISP gegevens, of Web Browser).
 
-TOETSENBORD:
-- [1] : Selecteer PC om te plaatsen.
-- [2] : Selecteer Laptop om te plaatsen.
-- [3] : Selecteer Switch om te plaatsen.
-- [4] : Selecteer Router om te plaatsen.
-- [D] : Verwijder-modus (klik op apparaat of kabel om te wissen).
-- [SPATIE] : Verstuur een data-pakketje tussen de verste eindpunten.
+TOETSENBORD SHORTCUTS:
+- [D] : Activeer direct de Delete-modus.
+- [SPATIE] : Start de verzending van een datapakketje (alleen beschikbaar in huizen).
 
---- 3. DEVELOPER SHORTCUTS (DEV) ---
+--- 3. FREE MODE ---
 
-Wil je snel testen? Gebruik deze verborgen combinaties:
-- [F] + [K] (2 seconden ingedrukt houden): Sla alles over en ga direct naar Level 3 (House 1).
-- IP Sneltoetsen: Sommige velden vullen automatisch standaardwaardes in bij dubbelklikken (simulatie-afhankelijk).
-
---- 4. FREE MODE ---
-
-Na het voltooien van Level 3 kom je in de 'Free Mode'.
+Na het voltooien van het netwerk in Huis 3 (Level 3) is het spel uitgespeeld en kom je in de 'Free Mode'.
 Hier ben je vrij om:
-- Alle huizen op de wereldkaart te betreden.
-- Gigantische netwerken te bouwen zonder beperkingen.
-- Je eigen verbindingen tussen continenten (huizen) te simuleren.
+- Elk huis op de wereldkaart in te richten zoals jij wilt.
+- Naar hartenlust netwerken te bouwen en te experimenteren met DHCP, IP's en Wi-Fi.
 
-Veel plezier met bouwen!
+Veel bouwplezier!
