@@ -1,4 +1,5 @@
 <div align="center">
+  <img src="Logo/logo.png" alt="Logo Packetry" />
   <h1>🌐 Network Simulator</h1>
   <p><i>Leer stap voor stap de basis van netwerkarchitectuur, bekabeling en IP-configuraties op een interactieve manier.</i></p>
 
@@ -66,8 +67,6 @@ In de simulator gebruik je de toolbar aan de boven- en rechterkant om je netwerk
 ---
 
 ## 🔗 Links
-
-
 
 ---
 
