@@ -159,6 +159,27 @@ def load_icon(folder, filename, size=(50, 50)):
         pygame.draw.circle(surf, WHITE, (size[0]//2, size[1]//2), size[0]//2)
         return surf
 
+# --- GELUIDSSYSTEEM ---
+pygame.mixer.init()
+SOUND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sounds")
+
+snd_cable = None
+snd_delete = None
+snd_enter = None
+snd_place = None
+
+try:
+    snd_cable = pygame.mixer.Sound(os.path.join(SOUND_DIR, "Cable.wav"))
+    snd_delete = pygame.mixer.Sound(os.path.join(SOUND_DIR, "Delete.mp3"))
+    snd_enter = pygame.mixer.Sound(os.path.join(SOUND_DIR, "EnteringHouse.mp3"))
+    snd_place = pygame.mixer.Sound(os.path.join(SOUND_DIR, "PlaceItem.mp3"))
+except Exception as e:
+    print(f"ERROR loading sounds: {e}")
+
+def play_sound(snd):
+    if snd:
+        snd.play()
+
 ICONS = {
     'PC': load_icon("Gear", "pc.png"),
     'Laptop': load_icon("Gear", "laptop.png"),
@@ -1913,6 +1934,7 @@ def main():
                             if selected_house:
                                 scene_name = selected_house.type
                                 sm.start_transition(scene_name, f"Inzoomen op {scene_name}...")
+                                play_sound(snd_enter)
                                 current_cable = None 
                                 selected_house = None 
                                 continue
@@ -2404,6 +2426,7 @@ def main():
                              # FIX: Huizen mogen niet verwijderd worden!
                              if clicked_dev.type not in ['House1', 'House2']:
                                  devices.remove(clicked_dev)
+                                 play_sound(snd_delete)
                                  connections = [c for c in connections if c.d1 != clicked_dev and c.d2 != clicked_dev]
                                  packets = [p for p in packets if clicked_dev not in getattr(p, 'path', [])]
                                  curr['connections'] = connections
@@ -2413,11 +2436,13 @@ def main():
                                 mx, my = (c.d1.x + c.d2.x) / 2, (c.d1.y + c.d2.y) / 2
                                 if math.hypot(mx - event.pos[0], my - event.pos[1]) < 20:
                                     connections.remove(c)
+                                    play_sound(snd_delete)
                                     break
                     else:
                         if clicked_dev:
                             drag_start_dev = clicked_dev
                             dragging = True
+                            play_sound(snd_cable)
                         else:
                             # HOLD SAFETY: Only place device on short click (< HOLD_THRESHOLD_MS)
                             # Long holding = intending to drag a cable, not place a device.
@@ -2438,6 +2463,7 @@ def main():
                     
                     if btn_enter_house.collidepoint(event.pos) and selected_house and sm.current == 'World' and not dragging and current_cable is None:
                         sm.start_transition(selected_house.type, get_text('trans_zoom_in'))
+                        play_sound(snd_enter)
                         Device.reset_counts()
                         current_cable = 'Cat 5'
                         continue
@@ -2516,6 +2542,8 @@ def main():
                                         mission_sys.fail_msg = f"{msg} {CABLES[current_cable]['max_m']}m"
                                         mission_sys.fail_timer = 180
                                 
+                    if dragging:
+                        play_sound(snd_cable)
                     dragging = False
                     drag_start_dev = None
                     
@@ -2557,10 +2585,12 @@ def main():
                                         else:
                                             new_dev = Device(event.pos[0], event.pos[1], current_mode)
                                             devices.append(new_dev)
+                                            play_sound(snd_place)
                                     else:
                                         # Free placement (no specific circle) but restricted to correct type
                                         new_dev = Device(event.pos[0], event.pos[1], current_mode)
                                         devices.append(new_dev)
+                                        play_sound(snd_place)
                             elif mission and mission.type not in ("DONE", "FREE", "L3_BUILD_H2") and mission_sys.level < 3:
                                 # If there is an active mission but it's NOT a placement mission
                                 mission_sys.fail_msg = "Hellaaa dat was de opdracht niet! Eerst de huidige taak afmaken."
@@ -2569,6 +2599,7 @@ def main():
                                 # Free mode or non-restrictive mission phases
                                 new_dev = Device(event.pos[0], event.pos[1], current_mode)
                                 devices.append(new_dev)
+                                play_sound(snd_place)
                                 
                             # Check Wi-Fi connection (Disabled for Manual Wi-Fi mission in Level 3)
                             if new_dev and new_dev.type == 'Laptop' and mission_sys.level < 3:
