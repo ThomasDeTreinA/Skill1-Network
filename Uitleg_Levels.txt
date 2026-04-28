@@ -7,33 +7,38 @@ Welkom bij de gids voor de Network Simulator! In deze game leer je de basis van 
 --- 1. OVERZICHT VAN DE LEVELS ---
 
 LEVEL 1: DE BASIS (LAN & KABELS)
-- Wat leer je: Het plaatsen van eindapparaten en netwerkapparatuur (Switch/Hub).
-- Doel: Trek kabels tussen de apparaten om een lokaal netwerk te vormen.
+- Wat leer je: Het plaatsen van eindapparaten en netwerkapparatuur (Switch/Hub). Het concept van 'attenuatie' (signaalverlies over afstand).
+- Doel: Trek kabels tussen de apparaten om een lokaal netwerk te vormen. Je zult een Cat 5e kabel moeten gebruiken voor de lange afstand!
 - Tip: Een Switch onthoudt waar data naartoe moet, een Hub stuurt data blind naar iedereen!
 
 LEVEL 2: ROUTING, IP & ISP CONFIGURATIE
-- Wat leer je: Hoe je een Router en PC handmatig configureert.
-- Doel: Vul ISP (Internet Service Provider) gegevens in op de Router en geef de PC een correct IP en Subnet Mask om te kunnen surfen.
+- Wat leer je: Hoe je een Router en PC handmatig configureert. Werken met de in-game Terminal.
+- Doel: Vul ISP (Internet Service Provider) gegevens in op de Router en geef de PC een correct IP en Subnet Mask om te kunnen surfen naar Thomas More.
 - Belangrijk: Zonder een correct IP-adres of Subnet Mask komt een datapakketje nooit aan zijn bestemming.
 
-LEVEL 3: DHCP, CROSSOVER & MEERDERE HUIZEN
-- Wat leer je: Het verschil tussen Straight-Through en Crossover kabels. Automatische IP-uitgifte via DHCP. Het plaatsen van draadloze Laptops (Wi-Fi).
-- Doel: Bouw een geavanceerd netwerk met twee routers in het hoofdkantoor. Activeer de DHCP server en navigeer via de Wereldkaart naar Huis 3 om daar een lokaal netwerkje op te zetten.
-- Extra: Op de wereldkaart zie je het overzicht, maar je kunt pas weer bouwen als je een huis bent binnengegaan!
+LEVEL 3: DHCP & CROSSOVER (HUIS 1)
+- Wat leer je: Het verschil tussen Straight-Through en Crossover kabels. Automatische IP-uitgifte via DHCP. Werken in een Blueprint serverruimte.
+- Doel: Bouw een geavanceerd netwerk met twee routers in het hoofdkantoor. Verbind de routers met Crossover. Activeer de DHCP server zodat PC's automatisch hun netwerkgegevens krijgen.
+
+LEVEL 4: WI-FI & WERELDKAART (HUIS 2)
+- Wat leer je: Het plaatsen van draadloze Laptops (Wi-Fi). Inter-huis verbindingen via WAN Fiber.
+- Doel: Navigeer via de Wereldkaart naar Huis 2. Richt dit netwerk in en verbind een laptop draadloos (wachtwoord: iloveITF). Test de verbinding!
+- Extra: Op de wereldkaart zie je het overzicht, maar je kunt pas weer apparaten plaatsen als je een huis bent binnengegaan!
 
 --- 2. BEDIENING ---
 
 MUIS:
 - Linkermuisknop: Apparaten plaatsen, selecteren, of kabels trekken (ingedrukt houden op een apparaat).
-- Klikken op PC/Router: Opent het OS-scherm (IP Instellingen, DHCP instellingen, ISP gegevens, of Web Browser).
+- Klikken op Apparaten: Opent het OS-scherm (IP Instellingen, DHCP instellingen, ISP gegevens, Terminal of Web Browser).
 
 TOETSENBORD SHORTCUTS:
 - [D] : Activeer direct de Delete-modus.
 - [SPATIE] : Start de verzending van een datapakketje (alleen beschikbaar in huizen).
+- [F3] : Snelkoppeling om direct naar Level 3 op de wereldkaart te springen (developer optie).
 
 --- 3. FREE MODE ---
 
-Na het voltooien van het netwerk in Huis 3 (Level 3) is het spel uitgespeeld en kom je in de 'Free Mode'.
+Na het voltooien van Huis 2 (Level 4) is het spel uitgespeeld en kom je in de 'Free Mode'.
 Hier ben je vrij om:
 - Elk huis op de wereldkaart in te richten zoals jij wilt.
 - Naar hartenlust netwerken te bouwen en te experimenteren met DHCP, IP's en Wi-Fi.

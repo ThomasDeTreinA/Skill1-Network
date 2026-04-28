@@ -2,45 +2,51 @@
                      HANDLEIDING: NETWORK SIMULATOR GAME
 ================================================================================
 
-Deze simulatie leert je stap voor stap de basis van netwerken, bekabeling en IP-configuraties. 
+Deze simulatie leert je stap voor stap de basis van netwerken, bekabeling en IP-configuraties. Zorg dat je het geluid aan hebt staan voor extra feedback tijdens het bouwen!
 
 --- 1. OVERZICHT VAN DE LEVELS ---
 
 LEVEL 1: DE BASIS (LAN & KABELS)
-- Wat leer je: Je leert de basiscomponenten kennen zoals een PC, Laptop, Switch en Hub. Je oefent met het verbinden via Straight-Through kabels.
+- Wat leer je: Je leert de basiscomponenten kennen zoals een PC, Laptop, Switch en Hub. Je oefent met kabelafstanden en het verschil tussen Cat 5 en Cat 5e.
 - Doel: Verbind alle apparaten in het kantoor tot een functioneel lokaal netwerk (LAN) en verstuur je eerste datapakketje succesvol.
 
 LEVEL 2: ROUTERS, IP & ISP
-- Wat leer je: Je leert waarom IP-adressen cruciaal zijn (net als een huisnummer) en stelt handmatig IP-adressen en Subnet Masks in. Je leert werken met een Router en configureert de ISP (Internet Service Provider) gegevens.
-- Doel: Configureer je netwerk zodat de PC de website van Thomas More kan inladen via de ingebouwde browser.
+- Wat leer je: Je leert waarom IP-adressen cruciaal zijn en stelt handmatig IP-adressen en Subnet Masks in. Je configureert de ISP (Internet Service Provider) gegevens op de router.
+- Doel: Configureer je netwerk zodat de PC de website van Thomas More kan inladen via de ingebouwde browser. Je leert ook pingen in de Terminal!
 
-LEVEL 3: DHCP, CROSSOVER & MULTI-ROOM NETWORKS
-- Wat leer je: Je bouwt een groter netwerk. Je leert het verschil tussen Straight-Through en Crossover kabels (voor gelijke apparaten). Je leert wat DHCP is en hoe je dit activeert op een router, zodat PC's automatisch een IP krijgen. Ten slotte leer je over Wi-Fi verbindingen met een laptop.
-- Doel: Richt het hoofdnetwerk in (inclusief serverruimtes), configureer DHCP, plaats een draadloze laptop, en navigeer via de Wereldkaart naar een tweede gebouw om daar ook een lokaal netwerk op te zetten.
+LEVEL 3: DHCP, CROSSOVER & BLUEPRINTS
+- Wat leer je: Je werkt nu in een kantoor met serverruimtes. Je leert het verschil tussen Straight-Through en Crossover kabels (voor gelijke apparaten zoals 2 routers). Je leert wat DHCP is en hoe je dit activeert.
+- Doel: Richt het hoofdnetwerk (Huis 1) in, configureer redundante routers en zet de DHCP server aan zodat PC's automatisch een IP krijgen.
+
+LEVEL 4: WI-FI & WERELDKAART
+- Wat leer je: Navigeren via de Wereldkaart naar een tweede gebouw. Draadloze netwerken instellen via Wi-Fi met wachtwoorden.
+- Doel: Richt Huis 2 in, verbind een laptop via Wi-Fi en stuur een datapakketje over het volledige netwerk!
 
 --- 2. KNOPPEN & BEDIENING ---
 
 TOOLBAR (BOVEN):
 - [PC]: Vaste werkplek, heeft een kabel nodig.
-- [Laptop]: Draagbaar, verbindt automatisch met Wi-Fi als er een Router in de buurt is.
+- [Laptop]: Draagbaar, verbindt via Wi-Fi als je het juiste wachtwoord invoert.
 - [Switch]: Slim verdeelpunt voor netwerkkabels.
 - [Hub]: Simpel verdeelpunt (stuurt data naar iedereen).
 - [Router]: Het hart van het netwerk, verdeelt IP-adressen (DHCP) en routeert data.
 - [Delete]: Klik op een apparaat of kabel-middelpunt om het weg te halen.
 
 KABELS (RECHTS):
-- Straight-Through: Voor het verbinden van verschillende soorten apparaten (bijv. PC naar Switch).
-- Crossover: Voor het verbinden van twee gelijke apparaten (bijv. Router naar Router of PC naar PC).
+- Cat 5 / Straight-Through: Voor het verbinden van verschillende soorten apparaten.
+- Cat 5e: Dikkere kabel voor langere afstanden.
+- Crossover: Voor het verbinden van twee gelijke apparaten (bijv. Router naar Router).
+- WAN Fiber: Om op de wereldkaart huizen met elkaar te verbinden.
 
 SPECIALE ACTIES:
-- [Pakket] (Data Icoon): Stuurt een testpakketje door je netwerk.
+- [Pakket] (Data Icoon): Stuurt een testpakketje door je netwerk (Spatiebalk werkt ook!).
 - [HUIS BETREDEN]: Op de wereldkaart klik je op een geselecteerd huis om naar binnen te gaan.
-- Let op: Op de wereldkaart kun je geen apparaten plaatsen of kabels trekken!
+- OS Scherm: Klik op een geplaatst apparaat om de Terminal, IP-instellingen of Browser te openen.
 
 --- 3. TIPS VOOR SUCCES ---
 - Verkeerde kabel? Let goed op de uitleg over Straight vs Crossover.
-- Werkt het internet niet? Controleer of je Router een correct IP heeft, of DHCP aanstaat, en of je de ISP gegevens juist hebt ingevuld.
-- Wi-Fi: Een laptop verbindt alleen als deze binnen de blauwe Wi-Fi ring van een Router wordt geplaatst.
+- Werkt het internet niet? Controleer of je Router een correct IP heeft, of DHCP aanstaat, en of je de ISP gegevens juist hebt ingevuld (Subnet Mask = 255.0.0.0 voor ISP).
+- Wi-Fi: Gebruik het wachtwoord 'iloveITF' om te verbinden.
 
 ================================================================================
                            VEEL PLEZIER MET HET SPEL!
