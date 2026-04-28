@@ -1,5 +1,4 @@
 <div align="center">
-  <img src="logo/logo2.png" alt="Skills Logo" width="120">
   <h1>🌐 Network Simulator</h1>
   <p><i>Leer stap voor stap de basis van netwerkarchitectuur, bekabeling en IP-configuraties op een interactieve manier.</i></p>
 
