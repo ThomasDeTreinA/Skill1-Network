@@ -67,8 +67,7 @@ In de simulator gebruik je de toolbar aan de boven- en rechterkant om je netwerk
 
 ## 🔗 Links
 
-- 🐙 [GitHub Repository](https://github.com/itfactory-tm/2025-2026-1itf-1-webdesign-essentials-ThomasDeTreinA)
-- 📸 [Pexels Portfolio](https://www.pexels.com/nl-nl/@thomas-2155811062/)
+
 
 ---
 
