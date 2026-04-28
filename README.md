@@ -2,9 +2,6 @@
   <h1>🌐 Network Simulator</h1>
   <p><i>Leer stap voor stap de basis van netwerkarchitectuur, bekabeling en IP-configuraties op een interactieve manier.</i></p>
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/itfactory-tm/2025-2026-1itf-1-webdesign-essentials-ThomasDeTreinA)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/itfactory-tm/2025-2026-1itf-1-webdesign-essentials-ThomasDeTreinA/pulls)
-
 </div>
 
 ---
