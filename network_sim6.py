@@ -786,7 +786,12 @@ class SceneManager:
             cross = font.render("X", True, WHITE)
             surface.blit(cross, (close_btn.centerx - cross.get_width()//2, close_btn.centery - cross.get_height()//2))
             
-
+            # Vrij Spel (Free Mode) Knop
+            btn_freemode = pygame.Rect(box.centerx - 150, box.bottom - 80, 300, 50)
+            pygame.draw.rect(surface, (100, 200, 100), btn_freemode, border_radius=10)
+            pygame.draw.rect(surface, WHITE, btn_freemode, 3, border_radius=10)
+            f_txt = font.render("VRIJ SPEL (FREE MODE)", True, WHITE)
+            surface.blit(f_txt, (btn_freemode.centerx - f_txt.get_width()//2, btn_freemode.centery - f_txt.get_height()//2))
             
         if self.transition_alpha > 0:
             s = pygame.Surface((1000, 700), pygame.SRCALPHA)
@@ -951,6 +956,11 @@ class MissionSystem:
                 Mission("Huis 2 voltooid! Terug naar de Wereldkaart...", "L3_TO_WORLD_2"),
                 Mission("Gefeliciteerd! Je hebt alle netwerken afgerond en Level 4 voltooid!", "EXPLANATION_FIN"),
                 Mission("Je bent nu in Free Mode. Veel plezier!", "DONE")
+            ]
+        else:
+            # Free Mode (level 99) or any unknown level — no missions, just sandbox
+            self.missions = [
+                Mission("Vrij Spel — bouw je eigen netwerk!", "DONE")
             ]
         self.current_idx = 0
         self.packets_delivered = 0
@@ -2105,6 +2115,26 @@ def main():
                                 
                                 sm.start_transition(target_scene, f"Laden van Level {level_num}...")
                                 break
+                        # Free Mode selection
+                        btn_freemode = pygame.Rect(box.centerx - 150, box.bottom - 80, 300, 50)
+                        if btn_freemode.collidepoint(event.pos):
+                            mission_sys.level = 99
+                            for s in sm.scenes.values():
+                                s['devices'].clear()
+                                s['connections'].clear()
+                                s['packets'].clear()
+                            mission_sys.setup_level()
+                            
+                            house_types = ['House1', 'House2', 'House3', 'House4']
+                            sm.scenes['World']['devices'].append(Device(100, 415, random.choice(house_types), decorative=True))
+                            sm.scenes['World']['devices'].append(Device(300, 280, 'House1'))
+                            sm.scenes['World']['devices'].append(Device(500, 280, 'House2'))
+                            sm.scenes['World']['devices'].append(Device(700, 415, random.choice(house_types), decorative=True))
+                            sm.scenes['World']['devices'].append(Device(900, 415, random.choice(house_types), decorative=True))
+                            
+                            sm.start_transition("World", "Laden van Vrij Spel (Sandbox)...")
+                            continue
+
                         continue
                         
                     # Educational Overlays dismissal (Highest Priority, above OS)
@@ -2429,8 +2459,9 @@ def main():
                         
                         continue # Block all background interaction when OS is open
                         
-                    # Terug naar Wereldknop (Alleen in Huis 2!)
-                    if sm.current == 'House2' and mission_sys.level == 3:
+                    # Terug naar Wereldknop
+                    is_free_mode = mission_sys.get_current() is None or mission_sys.get_current().type == "DONE"
+                    if (sm.current == 'House2' and mission_sys.level in (3, 4)) or (sm.current != 'World' and sm.current != 'Start' and is_free_mode):
                         btn_to_world = pygame.Rect(20, HEIGHT//2 - 20, 220, 40)
                         if btn_to_world.collidepoint(event.pos):
                             sm.start_transition("World", "Terug naar het overzicht...")
@@ -2937,8 +2968,9 @@ def main():
                     label = 'Cat 5' if name == 'Cat 5' else 'Cat 5e' if name == 'Cat 5e' else get_text(lbl_key)
                     t = font.render(label, True, WHITE)
                     screen.blit(t, (btn.x + 10, btn.y + 10))
-            # Terug naar Wereldknop tekenen (Alleen in Huis 2!)
-            if sm.current == 'House2' and mission_sys.level == 3:
+            # Terug naar Wereldknop tekenen
+            is_free_mode = mission_sys.get_current() is None or mission_sys.get_current().type == "DONE"
+            if (sm.current == 'House2' and mission_sys.level in (3, 4)) or (sm.current != 'World' and sm.current != 'Start' and is_free_mode):
                 btn_w = pygame.Rect(20, HEIGHT//2 - 20, 220, 40)
                 pygame.draw.rect(screen, (70, 70, 90), btn_w)
                 pygame.draw.rect(screen, CYAN, btn_w, 2)
