@@ -1,4 +1,5 @@
 <div align="center">
+<img src="Logo/logo-wit.png" alt="Packetry Logo">
   <h1> Network Simulator</h1>
   <p><i>Leer stap voor stap de basis van netwerkarchitectuur, bekabeling en IP-configuraties op een interactieve manier.</i></p>
 
