@@ -1,6 +1,5 @@
 <div align="center">
-  <img src="Logo/logo-wit.png" alt="Packetry Logo">
-  <h1>🌐 Network Simulator</h1>
+  <h1> Network Simulator</h1>
   <p><i>Leer stap voor stap de basis van netwerkarchitectuur, bekabeling en IP-configuraties op een interactieve manier.</i></p>
 
 </div>
@@ -45,13 +44,7 @@ In de simulator gebruik je de toolbar aan de boven- en rechterkant om je netwerk
 
 > **Tip:** Klik op een apparaat om het **OS-scherm** te openen. Hier vind je de IP-instellingen, DHCP-configuratie, een interactieve **Terminal** (ping, ipconfig) en de webbrowser om websites te bezoeken.
 
----
 
-## 🛠️ Developer Shortcuts & Free Mode
-
-- **Level Skip**: Houd `F` + `K` gedurende 2 seconden ingedrukt om direct naar Level 3 te springen. Of druk op `F3` om direct naar Level 3 op de wereldkaart te gaan.
-- **Start**: Run het spel via `python network_sim5_V2.py` in je terminal.
-- **🚀 Free Mode**: Na het voltooien van Level 4 speel je de Free Mode vrij. Hier kun je elk huis op de wereldkaart vrij inrichten zonder beperkingen!
 
 ---
 
